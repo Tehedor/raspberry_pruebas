@@ -3,7 +3,7 @@ import time
 from components.streetlight import StreetLight
 from components.toll.toll import Toll
 from components.crane import Crane
-from components.weatherStation.weatherStation import WheaterStation
+# from components.weatherStation.weatherStation import WheaterStation
 # from components.train import Train
 # from components.radar import Radar
 # from components.railroadSwitch import RailroadSwitch
@@ -12,7 +12,7 @@ def main():
     enable_street_light = True
     enable_toll = True
     enable_crane = True
-    enable_weather_station = True
+    enable_weather_station = False
     enable_train = False
     enable_radar = False
     enable_railroad_switch = False
