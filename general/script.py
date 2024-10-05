@@ -3,7 +3,7 @@ import time
 from components.streetlight import StreetLight
 from components.toll.toll import Toll
 from components.crane import Crane
-from components.weatherStation import WheaterStation
+from components.weatherStation.weatherStation import WheaterStation
 # from components.train import Train
 # from components.radar import Radar
 # from components.railroadSwitch import RailroadSwitch
