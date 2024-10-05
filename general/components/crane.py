@@ -7,7 +7,7 @@ from gpiozero import DistanceSensor
 # print('Distance: ', sensor.distance * 100,'cm')
 
 class Crane:
-    def __init__(self, pin_ultrasound_echo, pin_ultrasound_trig):
+    def __init__(self, pin_ultrasound_trig ,pin_ultrasound_echo ):
         self.sensor = DistanceSensor(echo=pin_ultrasound_echo, trigger=pin_ultrasound_trig ,max_distance=3)
         self.last_distance = None
         
