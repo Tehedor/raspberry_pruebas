@@ -104,10 +104,16 @@ class DHT(object):
 			time.sleep(0.1)
 		return result
 
+	# def printResult(self):
+	# 	self.readDHT11Once()
+	# 	print("Humidity : %.2f, \t Temperature : %.2f "%(self.humidity,self.temperature))
+	
 	def printResult(self):
-		self.readDHT11Once()
-		print("Humidity : %.2f, \t Temperature : %.2f "%(self.humidity,self.temperature))
-		
+		result = self.readDHT11()
+		if result == self.DHTLIB_OK:
+			print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
+		else:
+			print("Failed to read from DHT sensor")
 		
 # def loop():
 # 	dht = DHT(19)
