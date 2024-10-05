@@ -103,30 +103,34 @@ class DHT(object):
 				return self.DHTLIB_OK
 			time.sleep(0.1)
 		return result
+
+	def printResult(self):
+		self.readDHT11Once()
+		print("Humidity : %.2f, \t Temperature : %.2f "%(self.humidity,self.temperature))
 		
 		
-def loop():
-	dht = DHT(19)
-	sumCnt = 0
-	okCnt = 0
-	while(True):
-		sumCnt += 1
-		# chk = dht.readDHT11()	
-		chk = dht.readDHT11Once()
-		# if (chk is 0):
-		if (chk == 0):
-			okCnt += 1		
-		okRate = 100.0*okCnt/sumCnt;
-		print("sumCnt : %d, \t okRate : %.2f%% "%(sumCnt,okRate))
-		print("chk : %d, \t Humidity : %.2f, \t Temperature : %.2f "%(chk,dht.humidity,dht.temperature))
-		time.sleep(3)		
+# def loop():
+# 	dht = DHT(19)
+# 	sumCnt = 0
+# 	okCnt = 0
+# 	while(True):
+# 		sumCnt += 1
+# 		# chk = dht.readDHT11()	
+# 		chk = dht.readDHT11Once()
+# 		# if (chk is 0):
+# 		if (chk == 0):
+# 			okCnt += 1		
+# 		okRate = 100.0*okCnt/sumCnt;
+# 		print("sumCnt : %d, \t okRate : %.2f%% "%(sumCnt,okRate))
+# 		print("chk : %d, \t Humidity : %.2f, \t Temperature : %.2f "%(chk,dht.humidity,dht.temperature))
+# 		time.sleep(3)		
 		
-if __name__ == '__main__':
-	print ('Program is starting ... ')
-	try:
-		loop()
-	except KeyboardInterrupt:
-		pass
-		exit()		
+# if __name__ == '__main__':
+# 	print ('Program is starting ... ')
+# 	try:
+# 		loop()
+# 	except KeyboardInterrupt:
+# 		pass
+# 		exit()		
 		
 		

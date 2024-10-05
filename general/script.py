@@ -3,16 +3,19 @@ import time
 from components.streetlight import StreetLight
 from components.toll.toll import Toll
 from components.crane import Crane
-# from components.weatherStation.weatherStation import WheaterStation
+
+# from components.weatherStation.weatherStation import WeatherStation
+from components.weatherStation.Freenove_DHT import DHT as WeatherStation
+
 # from components.train import Train
 # from components.radar import Radar
 # from components.railroadSwitch import RailroadSwitch
 
 def main():
-    enable_street_light = True
-    enable_toll = True
-    enable_crane = True
-    enable_weather_station = False
+    enable_street_light = False
+    enable_toll = False
+    enable_crane = False
+    enable_weather_station = True
     enable_train = False
     enable_radar = False
     enable_railroad_switch = False
@@ -23,7 +26,9 @@ def main():
     street_light = StreetLight(pir_led_pin=22, pir_sensor_pin=18, photo_led_pin=27, threshold=128) if enable_street_light else None
     toll = Toll(toll_pin=23) if enable_toll else None
     crane = Crane(pin_ultrasound_trig=16, pin_ultrasound_echo=26) if enable_crane else None
-    weather_station = WheaterStation(wheaterSensorPin=11) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
+    
+    # weather_station = WeatherStation(pin_weatherSensor=11) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
+    weather_station = WeatherStation(pin=11) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
     
     train = Train() if enable_train else None
     radar = Radar() if enable_radar else None
@@ -38,7 +43,8 @@ def main():
     if enable_crane:
         tasks.append(crane.print_distance)
     if enable_weather_station:
-        tasks.append(weather_station.read_sensor)
+        # tasks.append(weather_station.read_sensor)
+        tasks.append(weather_station.printResult)
     if enable_train:
         tasks.append(train.some_method)  # Reemplaza some_method con el método adecuado
     if enable_radar:
