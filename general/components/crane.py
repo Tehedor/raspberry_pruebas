@@ -20,7 +20,10 @@ class Crane:
     
     def print_distance(self):
         current_distance = self.sensor.distance * 100
-        if current_distance != self.last_distance:
+        # if current_distance != self.last_distance:
+        #     self.last_distance = current_distance
+        #     print(f"Distance: {current_distance} cm")
+        if abs(current_distance - self.last_distance) >= 0.5:
             self.last_distance = current_distance
             print(f"Distance: {current_distance} cm")
         
