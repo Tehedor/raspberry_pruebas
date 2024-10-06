@@ -114,7 +114,12 @@ class DHT(object):
 			print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
 		else:
 			print("Failed to read from DHT sensor")
-		
+
+	def destroy(self):
+        GPIO.cleanup()
+		# exit()
+
+
 # def loop():
 # 	dht = DHT(19)
 # 	sumCnt = 0

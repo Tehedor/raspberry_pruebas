@@ -58,4 +58,5 @@ class WheaterStation:
         
         
     def destroy(self):
+        GPIO.cleanup()
         self.sensor.close()
