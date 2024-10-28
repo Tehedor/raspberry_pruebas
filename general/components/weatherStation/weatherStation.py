@@ -40,7 +40,7 @@ class WheaterStation:
         self.sensor = DistanceSensor(echo=pin_ultrasound_echo, trigger=pin_ultrasound_trig ,max_distance=3)
         self.last_temperature = 0.0
         self.times_control_timer = 0
-        self.times_limit = 30/sleeptime # 30 seconds
+        self.times_limit = 3/sleeptime # 30 seconds
         
     def detect_weather(self):
         current_distance = self.sensor.distance * 100
