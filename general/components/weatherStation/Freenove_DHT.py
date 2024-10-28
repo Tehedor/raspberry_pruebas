@@ -21,11 +21,11 @@ class DHT(object):
 	temperature = 0
 	
 	def __init__(self,pin_weatherSensor,sleeptime):
-		self.pin = pin
+		self.pin = pin_weatherSensor
 		self.bits = [0,0,0,0,0]
 		GPIO.setmode(GPIO.BOARD)
 		self.times_control_timer = 0
-        self.times_limit = 30/sleeptime # 30 seconds/ sleeptime
+		self.times_limit = 30/sleeptime # 30 seconds/ sleeptime
         
 	#Read DHT sensor, store the original data in bits[]	
 	def readSensor(self,pin,wakeupDelay):
