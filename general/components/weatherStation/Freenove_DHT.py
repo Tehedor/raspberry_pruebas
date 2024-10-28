@@ -124,7 +124,7 @@ class DHT(object):
     
 
 	def destroy(self):
-        GPIO.cleanup()
+		GPIO.cleanup()
 		# exit()
 
 
