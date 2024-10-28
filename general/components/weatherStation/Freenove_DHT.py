@@ -25,7 +25,8 @@ class DHT(object):
 		self.bits = [0,0,0,0,0]
 		GPIO.setmode(GPIO.BOARD)
 		self.times_control_timer = 0
-		self.times_limit = 3/sleeptime # 30 seconds/ sleeptime
+		# self.times_limit = 3/sleeptime # 30 seconds/ sleeptime
+		self.times_limit = 30 # 30 seconds
         
 	#Read DHT sensor, store the original data in bits[]	
 	def readSensor(self,pin,wakeupDelay):
