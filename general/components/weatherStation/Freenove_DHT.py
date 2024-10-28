@@ -20,10 +20,13 @@ class DHT(object):
 	humidity = 0
 	temperature = 0
 	
-	def __init__(self,pin):
+	def __init__(self,pin_weatherSensor,sleeptime):
 		self.pin = pin
 		self.bits = [0,0,0,0,0]
 		GPIO.setmode(GPIO.BOARD)
+		self.times_control_timer = 0
+        self.times_limit = 30/sleeptime # 30 seconds/ sleeptime
+        
 	#Read DHT sensor, store the original data in bits[]	
 	def readSensor(self,pin,wakeupDelay):
 		mask = 0x80
@@ -110,10 +113,15 @@ class DHT(object):
 	
 	def printResult(self):
 		result = self.readDHT11()
-		if result == self.DHTLIB_OK:
-			print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
+		if self.times_control_timer <= 0:
+			if result == self.DHTLIB_OK:
+				print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
+			else:
+				print("Failed to read from DHT sensor")
+			self.times_control_timer = self.times_limit
 		else:
-			print("Failed to read from DHT sensor")
+			self.times_control_timer -= 1
+    
 
 	def destroy(self):
         GPIO.cleanup()

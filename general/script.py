@@ -16,9 +16,9 @@ def main():
     enable_toll = False
     enable_crane = False
     enable_weather_station = True
+    enable_railroad_switch = False
     enable_train = False
     enable_radar = False
-    enable_railroad_switch = False
     
     sleeptime = 0.05
     
@@ -28,7 +28,7 @@ def main():
     crane = Crane(pin_ultrasound_trig=16, pin_ultrasound_echo=26) if enable_crane else None
     
     # weather_station = WeatherStation(pin_weatherSensor=11) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
-    weather_station = WeatherStation(pin=11) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
+    weather_station = WeatherStation(pin_weatherSensor=11, sleeptime=sleeptime) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
     
     train = Train() if enable_train else None
     radar = Radar() if enable_radar else None
