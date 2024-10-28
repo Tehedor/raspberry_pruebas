@@ -1,4 +1,5 @@
 import time
+import threading
 
 from components.streetlight import StreetLight
 from components.toll.toll import Toll
@@ -10,6 +11,12 @@ from components.weatherStation.Freenove_DHT import DHT as WeatherStation
 # from components.railroadSwitch import RailroadSwitch
 # from components.train import Train
 # from components.radar import Radar
+
+def sensor_task(task, sleeptime, stop_event):
+    while not stop_event.is_set():
+        task()
+        time.sleep(sleeptime)
+
 
 def main():
     enable_street_light = False
@@ -52,13 +59,37 @@ def main():
     if enable_railroad_switch:
         tasks.append(railroad_switch.some_method)  # Reemplaza some_method con el método adecuado
     
+    # # Crear y lanzar un hilo para cada tarea
+    # stop_event = threading.Event()
+    # threads = []
+    # for task in tasks:
+    #     thread = threading.Thread(target=sensor_task, args=(task, sleeptime))
+    #     thread.start()
+    #     threads.append(thread)
+        
+    # Crear y lanzar un hilo para cada tarea
+    stop_event = threading.Event()
+    threads = []
+    for task in tasks:
+        thread = threading.Thread(target=sensor_task, args=(task, sleeptime, stop_event))
+        thread.start()
+        threads.append(thread)
+    
+    
+    
     try:
-        while True:
-            for task in tasks:
-                task()
-            time.sleep(sleeptime)
+        # Esperar a que todos los hilos terminen
+        for thread in threads:
+            thread.join()
+    
+    # try:
+    #     while True:
+    #         for task in tasks:
+    #             task()
+    #         time.sleep(sleeptime)
     
     except KeyboardInterrupt:
+        stop_event.set()
         # Destruir los objetos en caso de interrupción
         if enable_street_light:
             street_light.destroy()
