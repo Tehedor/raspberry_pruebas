@@ -113,7 +113,7 @@ class DHT(object):
 	
 	def printResult(self):
 		result = self.readDHT11()
-		print("times_control_timer: %d"%(self.times_control_timer))
+		# print("times_control_timer: %d"%(self.times_control_timer))
 		if self.times_control_timer <= 0:
 			if result == self.DHTLIB_OK:
 				print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
