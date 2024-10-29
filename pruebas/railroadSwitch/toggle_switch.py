@@ -96,19 +96,20 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import RPi.GPIO as GPIimport 
+import lgpio
 import time
-import threading
-import RPi.GPIO as GPIO
 
-GPIO.setwarnings(False)
 PIN = 26
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(PIN, GPIO.IN)
+CHIP = 0  # Typically 0 for the default GPIO chip
 
-def handle(channel):
-    movement = GPIO.input(PIN)
-    if movement:
+# Initialize the GPIO chip
+h = lgpio.gpiochip_open(CHIP)
+
+# Set the GPIO pin as input
+lgpio.gpio_claim_input(h, PIN)
+
+def handle(chip, gpio, level, tick):
+    if level == 1:
         print("Movement")
     else:
         print("No movement")
@@ -116,20 +117,20 @@ def handle(channel):
 print("Setting up event detect")
 worked = False
 while not worked:
-    # keep trying to set up event detect based on suggestion in 
-    # https://www.raspberrypi.org/forums/viewtopic.php?f=32&t=129015&p=874227#p874227
     worked = True
     try:
-        GPIO.add_event_detect(PIN, GPIO.BOTH, handle)
+        lgpio.gpio_set_debounce_micros(h, PIN, 200000)  # Set debounce time to 200ms
+        lgpio.gpio_register_callback(h, PIN, lgpio.BOTH_EDGES, handle)
         print("Event detect set up")
-    except RuntimeError as e:
+    except Exception as e:
         worked = False
         print(f"Failed to set up event detect, trying again. Error: {e}")
-print("We are running!")  # This never prints, never gets out of above while loop
+
+print("We are running!")
 
 try:
     while True:
         time.sleep(1e6)
 except KeyboardInterrupt:
     print("Exiting program")
-    GPIO.cleanup()
+    lgpio.gpiochip_close(h)
