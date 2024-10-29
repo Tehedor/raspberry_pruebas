@@ -100,11 +100,61 @@
 ############################################################################################################
 ############################################################################################################
 
+# import RPi.GPIO as GPIO
+# import time
+
+# # Set the GPIO mode to BCM
+# GPIO.setmode(GPIO.BCM)
+
+# # Define the GPIO pin for your switch
+# SWITCH_PIN = 6
+
+# # Define debounce time in milliseconds
+# DEBOUNCE_TIME_MS = 200  # 200 milliseconds
+
+# # Set the initial state and pull-up resistor for the switch
+# GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# # Initialize the switch state and previous state
+# switch_state = GPIO.input(SWITCH_PIN)
+# prev_switch_state = switch_state
+
+# # Define a function to handle switch presses
+# def switch_callback(channel):
+#     global switch_state, prev_switch_state
+#     switch_state = GPIO.input(SWITCH_PIN)
+#     if switch_state != prev_switch_state:
+#         if switch_state == GPIO.HIGH:
+#             print("The switch: ON -> OFF")
+#         else:
+#             print("The switch: OFF -> ON")
+#         prev_switch_state = switch_state
+
+# # Add an event listener for the switch press
+# GPIO.add_event_detect(SWITCH_PIN, GPIO.BOTH, callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
+
+# try:
+#     # Main loop
+#     while True:
+#         time.sleep(1)  # Sleep to reduce CPU usage
+
+# except KeyboardInterrupt:
+#     # Clean up GPIO on exit
+#     GPIO.cleanup()
+
+############################################################################################################
+############################################################################################################
+
 import RPi.GPIO as GPIO
 import time
 
-# Set the GPIO mode to BCM
-GPIO.setmode(GPIO.BCM)
+# Limpia la configuración de GPIO al inicio del script
+GPIO.cleanup()
+
+# Verifica si el modo GPIO ya está configurado
+if not GPIO.getmode():
+    # Set the GPIO mode to BCM
+    GPIO.setmode(GPIO.BCM)
 
 # Define the GPIO pin for your switch
 SWITCH_PIN = 6
@@ -131,7 +181,10 @@ def switch_callback(channel):
         prev_switch_state = switch_state
 
 # Add an event listener for the switch press
-GPIO.add_event_detect(SWITCH_PIN, GPIO.BOTH, callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
+try:
+    GPIO.add_event_detect(SWITCH_PIN, GPIO.BOTH, callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
+except RuntimeError as e:
+    print(f"Error adding event detection: {e}")
 
 try:
     # Main loop
