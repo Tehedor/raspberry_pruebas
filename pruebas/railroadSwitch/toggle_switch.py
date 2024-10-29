@@ -71,7 +71,7 @@ def switch_callback(channel):
 
 # Add an event listener for the switch press
 # GPIO.add_event_detect(SWITCH_PIN, GPIO.BOTH, callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
-GPIO.add_event_detect(SWITCH_PIN, callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
+GPIO.add_event_detect(SWITCH_PIN, switch_state ,callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
 
 try:
     # Main loop
