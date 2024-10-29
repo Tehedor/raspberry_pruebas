@@ -25,7 +25,7 @@ GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 26 to be an input p
 while True: # Run forever
 
         
-    if GPIO.input(26) == GPIO.HIGH:
+    if GPIO.input(5) == GPIO.HIGH:
         # sock = socket.socket(socket.AF_INET, # Internet
         #             #  socket.SOCK_DGRAM) # UDP
         # sock.sendto(MESSAGE2_B, (UDP_IP, UDP_PORT)) #
