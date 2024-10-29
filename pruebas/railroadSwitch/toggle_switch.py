@@ -63,6 +63,10 @@ GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # Initialize the switch state and previous state
 switch_state = GPIO.input(SWITCH_PIN)
 print(switch_state)
+state = GPIIO.HIGH
+if switch_state == 0:
+    state = GPIO.LOW
+
 
 prev_switch_state = switch_state
 
@@ -73,7 +77,7 @@ def switch_callback(channel):
 
 # Add an event listener for the switch press
 # GPIO.add_event_detect(SWITCH_PIN, GPIO.BOTH, callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
-GPIO.add_event_detect(SWITCH_PIN, switch_state ,callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
+GPIO.add_event_detect(SWITCH_PIN, state ,callback=switch_callback, bouncetime=DEBOUNCE_TIME_MS)
 
 try:
     # Main loop
