@@ -68,27 +68,26 @@
 
 ############################################################################################################
 ############################################################################################################
-import time
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
+import time
 
-btn_input = 6
-# LED_output = 17;
+# Configurar GPIO
+GPIO.setmode(GPIO.BCM)  # Usar numeración BCM
+pin_interruptor = 17  # Ajusta según tu configuración
+GPIO.setup(pin_interruptor, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Pull-down
 
-# GPIO btn_input set up as input.
-GPIO.setup(btn_input, GPIO.IN)
-# GPIO.setup(LED_output, GPIO.OUT)
+def interruptor_cambiado(canal):
+    # Función llamada cuando ocurre un evento en el interruptor
+    if GPIO.input(pin_interruptor) == GPIO.HIGH:
+        print("Interruptor encendido")
+    else:
+        print("Interruptor apagado")
 
-# handle the button event
-def buttonEventHandler (pin):
-    # turn LED on/off
-    # GPIO.output(LED_output,True)
-    # time.sleep(5)
-    # GPIO.output(LED_output,False)
-    print("Button pressed")
+# Agregar detector de eventos
+GPIO.add_event_detect(pin_interruptor, GPIO.BOTH, callback=interruptor_cambiado, bouncetime=300)
 
-GPIO.add_event_detect(btn_input, GPIO.RISING, callback=buttonEventHandler)  
-try:  
-    GPIO.wait_for_edge(btn_input, GPIO.FALLING)  
-except:
-    GPIO.cleanup()   
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    GPIO.cleanup()
