@@ -96,10 +96,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import RPi.GPIO as GPIO
-import time
+import RPi.GPIO as GPIimport time
 import threading
+import RPi.GPIO as GPIO
 
+GPIO.setwarnings(False)
 PIN = 26
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(PIN, GPIO.IN)
@@ -109,9 +110,9 @@ def handle(channel):
     if movement:
         print("Movement")
     else:
-        print("aNo movement")
+        print("No movement")
 
-print ("Setting up event detect")
+print("Setting up event detect")
 worked = False
 while not worked:
     # keep trying to set up event detect based on suggestion in 
@@ -124,5 +125,9 @@ while not worked:
 
 print("We are running!")  # This never prints, never gets out of above while loop
 
-while True:
-    time.sleep(1e6)
+try:
+    while True:
+        time.sleep(1e6)
+except KeyboardInterrupt:
+    print("Exiting program")
+    GPIO.cleanup()
