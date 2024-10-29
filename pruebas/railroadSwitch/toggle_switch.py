@@ -63,9 +63,9 @@ GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # Initialize the switch state and previous state
 switch_state = GPIO.input(SWITCH_PIN)
 print(switch_state)
-state = GPIO.HIGH
+state = GPIO.RISING
 if switch_state == 0:
-    state = GPIO.LOW
+    state = GPIO.FALLING
 
 
 prev_switch_state = switch_state
