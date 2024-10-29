@@ -120,8 +120,7 @@ while not worked:
     worked = True
     try:
         lgpio.gpio_set_debounce_micros(h, PIN, 200000)  # Set debounce time to 200ms
-        lgpio.add_event_detect(h, PIN, lgpio.BOTH_EDGES, handle)
-        # lgpio.gpio_register_callback(h, PIN, lgpio.BOTH_EDGES, handle)
+        lgpio.add_event_detect(PIN, lgpio.BOTH_EDGES, callback=handle, bouncetime=200)
         print("Event detect set up")
     except Exception as e:
         worked = False
