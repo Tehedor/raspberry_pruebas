@@ -21,24 +21,26 @@ GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 26 to be an input p
 # print("message: %s" % MESSAGE1)
 # print("message: %s" % MESSAGE2)
 
+try:
+    while True: # Run forever
 
-while True: # Run forever
-
-        
-    if GPIO.input(5) == GPIO.HIGH:
-        # sock = socket.socket(socket.AF_INET, # Internet
-        #             #  socket.SOCK_DGRAM) # UDP
-        # sock.sendto(MESSAGE2_B, (UDP_IP, UDP_PORT)) #
-        
-        time.sleep(0.5)
-        print("State 1")
-    else:
-        # sock = socket.socket(socket.AF_INET, # Internet
-        #              socket.SOCK_DGRAM) # UDP
-        # sock.sendto(MESSAGE1_B, (UDP_IP, UDP_PORT)) #
-        time.sleep(0.5) 
-        print("State 0")
-
+            
+        if GPIO.input(5) == GPIO.HIGH:
+            # sock = socket.socket(socket.AF_INET, # Internet
+            #             #  socket.SOCK_DGRAM) # UDP
+            # sock.sendto(MESSAGE2_B, (UDP_IP, UDP_PORT)) #
+            
+            time.sleep(0.5)
+            print("State 1")
+        else:
+            # sock = socket.socket(socket.AF_INET, # Internet
+            #              socket.SOCK_DGRAM) # UDP
+            # sock.sendto(MESSAGE1_B, (UDP_IP, UDP_PORT)) #
+            time.sleep(0.5) 
+            print("State 0")
+except KeyboardInterrupt:
+    # Clean up GPIO on exit
+    GPIO.cleanup()
 
 
 # import RPi.GPIO as GPIO
@@ -85,6 +87,6 @@ while True: # Run forever
 #         else:
 #             print("The switch: ON")
 
-except KeyboardInterrupt:
-    # Clean up GPIO on exit
-    GPIO.cleanup()
+# except KeyboardInterrupt:
+#     # Clean up GPIO on exit
+#     GPIO.cleanup()
