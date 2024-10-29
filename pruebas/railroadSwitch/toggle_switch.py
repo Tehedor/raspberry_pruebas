@@ -68,26 +68,61 @@
 
 ############################################################################################################
 ############################################################################################################
+# import RPi.GPIO as GPIO
+# import time
+
+# # Configurar GPIO
+# GPIO.setmode(GPIO.BCM)  # Usar numeración BCM
+# pin_interruptor = 26  # Ajusta según tu configuración
+# GPIO.setup(pin_interruptor, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Pull-down
+
+# def interruptor_cambiado(canal):
+#     # Función llamada cuando ocurre un evento en el interruptor
+#     if GPIO.input(pin_interruptor) == GPIO.HIGH:
+#         print("Interruptor encendido")
+#     else:
+#         print("Interruptor apagado")
+
+# # Agregar detector de eventos
+# GPIO.add_event_detect(pin_interruptor, GPIO.BOTH, callback=interruptor_cambiado, bouncetime=300)
+
+# try:
+#     while True:
+#         time.sleep(1)
+# except KeyboardInterrupt:
+#     GPIO.cleanup()
+
+
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import RPi.GPIO as GPIO
 import time
+import threading
 
-# Configurar GPIO
-GPIO.setmode(GPIO.BCM)  # Usar numeración BCM
-pin_interruptor = 26  # Ajusta según tu configuración
-GPIO.setup(pin_interruptor, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Pull-down
+PIN = 26
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(PIN, GPIO.IN)
 
-def interruptor_cambiado(canal):
-    # Función llamada cuando ocurre un evento en el interruptor
-    if GPIO.input(pin_interruptor) == GPIO.HIGH:
-        print("Interruptor encendido")
+def handle(channel):
+    movement = GPIO.input(PIN)
+    if movement:
+        print("Movement")
     else:
-        print("Interruptor apagado")
+        print(“No movement")
 
-# Agregar detector de eventos
-GPIO.add_event_detect(pin_interruptor, GPIO.BOTH, callback=interruptor_cambiado, bouncetime=300)
+print ("Setting up event detect")
+worked = False
+while not worked:
+    # keep trying to set up event detect based on suggestion in 
+    # https://www.raspberrypi.org/forums/viewtopic.php?f=32&t=129015&p=874227#p874227
+    worked = True
+    try:
+        GPIO.add_event_detect(PIN, GPIO.BOTH, handle)
+    except RuntimeError:
+        worked = False
 
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    GPIO.cleanup()
+print("We are running!")  # This never prints, never gets out of above while loop
+
+while True:
+    time.sleep(1e6)
