@@ -96,7 +96,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import RPi.GPIO as GPIimport time
+import RPi.GPIO as GPIimport 
+import time
 import threading
 import RPi.GPIO as GPIO
 
