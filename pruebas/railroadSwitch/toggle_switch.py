@@ -73,7 +73,7 @@ import time
 
 # Configurar GPIO
 GPIO.setmode(GPIO.BCM)  # Usar numeración BCM
-pin_interruptor = 17  # Ajusta según tu configuración
+pin_interruptor = 26  # Ajusta según tu configuración
 GPIO.setup(pin_interruptor, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Pull-down
 
 def interruptor_cambiado(canal):
