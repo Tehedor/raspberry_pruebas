@@ -121,8 +121,10 @@ while not worked:
     worked = True
     try:
         GPIO.add_event_detect(PIN, GPIO.BOTH, handle)
+        print("Event detect set up")
     except RuntimeError:
         worked = False
+        print("Failed to set up event detect, trying again")
 
 print("We are running!")  # This never prints, never gets out of above while loop
 
