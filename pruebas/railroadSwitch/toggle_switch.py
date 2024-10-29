@@ -109,7 +109,7 @@ def handle(channel):
     if movement:
         print("Movement")
     else:
-        print(“No movement")
+        print("aNo movement")
 
 print ("Setting up event detect")
 worked = False
