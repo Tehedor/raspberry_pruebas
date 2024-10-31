@@ -1,7 +1,7 @@
 from gpiozero import Button, AngularServo
 import time
 
-button = Button(20)  # define Button pin according to BCM Numbering
+switch = Button(26)  # define Button pin according to BCM Numbering
 myGPIO = 21
 
 myCorrection = 0.0
@@ -13,14 +13,14 @@ def loop():
     state = 0
     
     while True:
-        if button.is_pressed:  # if button is pressed
+        if switch.is_pressed:  # if switch is pressed
             if state == 0:
                 state = 1
                 print("State 1")
                 for angle in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
                     servo.angle = angle
             # state = 1     
-        else:  # if button is released
+        else:  # if switch is released
             if state == 1:
                 state = 0
                 print("State 0")
