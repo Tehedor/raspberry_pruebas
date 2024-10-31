@@ -20,3 +20,11 @@ def loop():
             # print("Button is released") 
             pressed = 0   
             print("State 0")
+            
+            
+if __name__ == '__main__':     # Program entrance
+    print ('Program is starting...')
+    try:
+        loop()
+    except KeyboardInterrupt:  # Press ctrl-c to end the program.
+        print("Ending program")
