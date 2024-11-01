@@ -22,8 +22,8 @@ def main():
     enable_street_light = False
     enable_toll = False
     enable_crane = False
-    enable_weather_station = True
-    enable_railroad_switch = False
+    enable_weather_station = False
+    enable_railroad_switch = True
     enable_train = False
     enable_radar = False
     
@@ -33,13 +33,13 @@ def main():
     street_light = StreetLight(pir_led_pin=22, pir_sensor_pin=18, photo_led_pin=27, threshold=128) if enable_street_light else None
     toll = Toll(toll_pin=23) if enable_toll else None
     crane = Crane(pin_ultrasound_trig=16, pin_ultrasound_echo=26) if enable_crane else None
+    railroad_switch = RailroadSwitch(pin_switch=26, pin_servo=21) if enable_railroad_switch else None
     
     # weather_station = WeatherStation(pin_weatherSensor=11) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
     weather_station = WeatherStation(pin_weatherSensor=11, sleeptime=sleeptime) if enable_weather_station else None   # Tienes que poner pin 11 auque por alguna razon corresponde al pin 17, sino no funciona 
     
     train = Train() if enable_train else None
     radar = Radar() if enable_radar else None
-    railroad_switch = RailroadSwitch() if enable_railroad_switch else None
     
     # Crear una lista de funciones a ejecutar
     tasks = []
@@ -57,7 +57,7 @@ def main():
     if enable_radar:
         tasks.append(radar.some_method)  # Reemplaza some_method con el método adecuado
     if enable_railroad_switch:
-        tasks.append(railroad_switch.some_method)  # Reemplaza some_method con el método adecuado
+        tasks.append(railroad_switch.control_switch)  # Reemplaza some_method con el método adecuado
     
     # # Crear y lanzar un hilo para cada tarea
     # stop_event = threading.Event()
