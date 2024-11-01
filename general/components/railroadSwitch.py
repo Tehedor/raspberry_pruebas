@@ -1,9 +1,13 @@
 from gpiozero import Button, AngularServo
 
+myCorrection = 0.0
+maxPW = (2.5 + myCorrection) / 1000
+minPW = (0.5 - myCorrection) / 1000
+
 class RailroadSwitch:
     def __init__(self, pin_switch, pin_servo):
         self.switch = Button(pin_switch)  # define Button pin according to BCM Numbering
-        self.servo = AngularServo(pin_servo, initial_angle=0, min_angle=0, max_angle=180, min_pulse_width=0.5, max_pulse_width=2.5)
+        self.servo = AngularServo(pin_servo, initial_angle=0, min_angle=0, max_angle=180, min_pulse_width=minPW, max_pulse_width=maxPW)
         self.state = 0
         
     def control_switch(self):
