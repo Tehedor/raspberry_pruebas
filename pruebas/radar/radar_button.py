@@ -20,7 +20,7 @@ def loop():
             picam2.configure(preview_config)
             picam2.start_preview(Preview.QTGL)
             picam2.start()
-            time.sleep(2)
+            time.sleep(0.5)
             metadata = picam2.capture_file("image.jpg")
             print ('Hello.a photo has been to taken successfully')   # print information on terminal
             picam2.close()
