@@ -8,7 +8,7 @@ from components.crane import Crane
 # from components.weatherStation.weatherStation import WeatherStation
 from components.weatherStation.Freenove_DHT import DHT as WeatherStation
 
-# from components.railroadSwitch import RailroadSwitch
+from components.railroadSwitch import RailroadSwitch
 # from components.train import Train
 # from components.radar import Radar
 
