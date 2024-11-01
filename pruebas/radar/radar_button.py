@@ -6,6 +6,7 @@
 # modification: 2023/05/11
 ########################################################################
 import time
+import os
 from picamera2 import Picamera2, Preview
 from gpiozero import Button
 
@@ -21,7 +22,9 @@ def loop():
             picam2.start_preview(Preview.QTGL)
             picam2.start()
             time.sleep(0.5)
-            metadata = picam2.capture_file("image.jpg")
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            file = os.path.expanduser(f"~/Desktop/pictures/image_{timestamp}.jpg")
+            metadata = picam2.capture_file(file)
             print ('Hello.a photo has been to taken successfully')   # print information on terminal
             picam2.close()
             print ('Please preess the button take a photo')
