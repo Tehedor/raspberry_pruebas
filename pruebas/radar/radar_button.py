@@ -10,7 +10,7 @@ def loop():
     
     while True:
         if button.is_pressed:  # if button is pressed
-            print("Button is pressed") # print information on terminal 
+            # print("Button is pressed") # print information on terminal 
             if control == 1:
                 control = 0
                 print("1")
