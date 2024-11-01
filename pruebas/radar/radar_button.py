@@ -2,7 +2,7 @@ from gpiozero import Button
 import time
 
 
-button = Button(13) # define Button pin according to BCM Numbering
+button = Button(19) # define Button pin according to BCM Numbering
 
 def loop():
     state = 0
