@@ -23,9 +23,9 @@ def main():
     enable_toll = False
     enable_crane = False
     enable_weather_station = False
-    enable_railroad_switch = True
+    enable_railroad_switch = False
     enable_train = False
-    enable_radar = False
+    enable_radar = True
     
     sleeptime = 0.05
     
