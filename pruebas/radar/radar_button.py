@@ -9,7 +9,7 @@ import time
 from picamera2 import Picamera2, Preview
 from gpiozero import Button
 
-buttonPin = 13    # define buttonPin
+buttonPin = 19    # define buttonPin
 button = Button(buttonPin,pull_up=True) # define Button pin according to BCM Numbering
 
 def loop():
