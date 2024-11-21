@@ -10,7 +10,7 @@ HEADERS = {
 def patch_entity(entity_id, attribute, value):
     url = f"{BASE_URL}/{entity_id}/attrs"
     payload = {attribute: value}
-    response = requests.patch(url, json=payload, headers=HEADERS)
+    response = request.patch(url, json=payload, headers=HEADERS)
     return response.json() if response.ok else {"error": "PATCH failed"}
 
 
@@ -54,7 +54,7 @@ def infrared_sensor_change(presence):
     entity_id = f"urn:ngsi-ld:InfraredSensor:001"
     return patch_entity(entity_id, "presence", presence)
 
-def camera_change(state_camera):
+def camera_change(state_camera, media_url):
     entity_id = f"urn:ngsi-ld:Camera:001"
     return patch_entity(entity_id, "stateCamera", state_camera)
 

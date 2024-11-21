@@ -417,7 +417,7 @@ class MFRC522:
 #     GPIO.output(self.NRSTPD, 1)
     self.RST.on()
   
-    self.MFRC522_Reset();
+    self.MFRC522_Reset()
     
     self.Write_MFRC522(self.TPrescalerReg, 0x3E)
     checkValue=self.Read_MFRC522(self.TPrescalerReg)

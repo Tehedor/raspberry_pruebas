@@ -7,8 +7,16 @@
 ########################################################################
 import RPi.GPIO as GPIO
 import time
+from ..server import server_requests
 
-class DHT(object):
+
+gpio_to_physical = {2: 3, 3: 5, 4: 7, 14: 8, 15: 10, 17: 11, 
+                    18: 12, 27: 13, 22: 15, 23: 16, 24: 18, 
+                    10: 19, 9: 21, 25: 22, 11: 23, 8: 24, 7: 26, 
+                    0: 27, 1: 28, 5: 29, 6: 31, 12: 32, 13: 33, 
+                    19: 35, 16: 36, 26: 37, 20: 38, 21: 40}
+
+class WeatherStation(object):
 	DHTLIB_OK = 0
 	DHTLIB_ERROR_CHECKSUM = -1
 	DHTLIB_ERROR_TIMEOUT = -2
@@ -21,7 +29,7 @@ class DHT(object):
 	temperature = 0
 	
 	def __init__(self,pin_weatherSensor,sleeptime):
-		self.pin = pin_weatherSensor
+		self.pin = gpio_to_physical[pin_weatherSensor]
 		self.bits = [0,0,0,0,0]
 		GPIO.setmode(GPIO.BOARD)
 		self.times_control_timer = 0
@@ -112,6 +120,7 @@ class DHT(object):
 	# 	self.readDHT11Once()
 	# 	print("Humidity : %.2f, \t Temperature : %.2f "%(self.humidity,self.temperature))
 	
+# Serverless mode
 	def printResult(self):
 		result = self.readDHT11()
 		# print("times_control_timer: %d"%(self.times_control_timer))
@@ -123,8 +132,23 @@ class DHT(object):
 			self.times_control_timer = self.times_limit
 		else:
 			self.times_control_timer -= 1
-    
 
+# Server mode
+	def detect_temperature_server(self):
+		result = self.readDHT11()
+		if self.times_control_timer <= 0:
+			if result == self.DHTLIB_OK:
+				# print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
+				server_requests.temperature_sensor_change(self.temperature)
+				server_requests.humidity_sensor_change(self.humidity)
+			else:
+				print("Failed to read from DHT sensor")
+			self.times_control_timer = self.times_limit
+		else:
+			self.times_control_timer -= 1
+        
+
+# Destroy
 	def destroy(self):
 		GPIO.cleanup()
 		# exit()
