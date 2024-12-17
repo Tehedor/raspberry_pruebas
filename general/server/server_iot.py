@@ -61,6 +61,7 @@ class IoTServer:
 # Servmotor
         @self.app.route('/servmotorActuator', methods=['POST'])
         def servmotor_actuator():
+            print('Servmotor Actuator fansdfinasdifnasidnfainfdinasdifnasidnf')
             try:
                 data = request.json.get("data")[0]
                 print(f"Received data for Servomotor Actuator: {data}")
