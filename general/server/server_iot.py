@@ -26,7 +26,7 @@ class IoTServer:
             try:
                 data = request.json.get("data")[0]
                 print(f"Received data for LED Detection Actuator: {data}")
-                led_state = data.get("stateLed", {}).get("value")
+                led_state = data.get("presence", {}).get("value")
                 print(led_state)
                 self.street_light.control_lights_server_led(led_state)
                 return jsonify({"status": "success", "data": data}), 201
