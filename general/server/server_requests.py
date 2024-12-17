@@ -14,8 +14,10 @@ def patch_entity(entity_id, attribute, value):
     url = f"{BASE_URL}/{entity_id}/attrs"
     payload = {attribute: value}
     response = request.patch(url, json=payload, headers=HEADERS)
-    return response.json() if response.ok else {"error": "PATCH failed"}
-
+    try:
+        return response.json() if response.ok else {"error": "PATCH failed"}
+    except request.JSONDecodeError:
+        return {"error": "Invalid JSON"}
 
 # Streetlight
 def pir_sensor_change(presence):
