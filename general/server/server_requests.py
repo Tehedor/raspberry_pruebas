@@ -1,4 +1,5 @@
-from flask import request
+# from flask import request
+import requests as request
 
 IP_server = '138.4.22.12'
 # BASE_URL = f'http://{IP_server}:1026/ngsi-ld/v1/entities'
