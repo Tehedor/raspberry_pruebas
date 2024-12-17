@@ -2,7 +2,7 @@ from gpiozero import LED, MotionSensor, PWMLED
 import time
 from ADCDevice import *
 # import ..server.server_requests as server_requests
-from ..server import server_requests
+from server import server_requests
 
 # ** ##### ** ##### ** ##### ** ##### ** #
 # ** PirSensor class
