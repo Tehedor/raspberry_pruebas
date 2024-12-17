@@ -61,13 +61,13 @@ class IoTServer:
 # Servmotor
         @self.app.route('/servmotorActuator', methods=['POST'])
         def servmotor_actuator():
-            print('Servmotor Actuator fansdfinasdifnasidnfainfdinasdifnasidnf')
             try:
                 data = request.json.get("data")[0]
                 print(f"Received data for Servomotor Actuator: {data}")
                 # result = self.servmotor_change(data.get("stateMotor"))
                 # return jsonify(result), 201
-                self.railroad_switch.control_servo_server(data.get("stateMotor"))
+                print(data.get("value"))
+                self.railroad_switch.control_servo_server(data.get("value"))
                 return jsonify({"status": "success", "data": data}), 201
             except Exception as e:
                 print(f"Error handling Servomotor Actuator: {e}")
