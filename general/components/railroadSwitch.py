@@ -34,7 +34,7 @@ class RailroadSwitch:
                 self.control_servo(self.state)
 
 # Server mode
-    def control_switch_server(self, state):
+    def control_switch_server(self):
         # print('State:', state)
         if self.switch.is_pressed:  # if switch is pressed
             if self.state == 0:
