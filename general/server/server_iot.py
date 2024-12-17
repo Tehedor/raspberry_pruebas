@@ -66,8 +66,9 @@ class IoTServer:
                 print(f"Received data for Servomotor Actuator: {data}")
                 # result = self.servmotor_change(data.get("stateMotor"))
                 # return jsonify(result), 201
-                print(data.get("value"))
-                self.railroad_switch.control_servo_server(data.get("value"))
+                state_value = data.get("state", {}).get("value")
+                print(state_value)
+                self.railroad_switch.control_servo_server(state_value)
                 return jsonify({"status": "success", "data": data}), 201
             except Exception as e:
                 print(f"Error handling Servomotor Actuator: {e}")
