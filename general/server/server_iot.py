@@ -5,7 +5,7 @@ import os
 
 class IoTServer:
     # def __init__(self, host='0.0.0.0', port=5000):
-    def __init__(self, host='0.0.0.0', port=80, street_light=None, toll=None, crane=None, weather_station=None, railroad_switch=None, radar=None, train=None):
+    def __init__(self, host='0.0.0.0', port=8080, street_light=None, toll=None, crane=None, weather_station=None, railroad_switch=None, radar=None, train=None):
         self.app = Flask(__name__)
         self.host = host
         self.port = port
