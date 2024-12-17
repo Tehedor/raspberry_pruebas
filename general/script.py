@@ -34,7 +34,7 @@ def main():
     enable_toll = False
     enable_crane = False
     enable_weather_station = False
-    enable_railroad_switch = False
+    enable_railroad_switch = True
     enable_radar = False
     enable_train = False
     
