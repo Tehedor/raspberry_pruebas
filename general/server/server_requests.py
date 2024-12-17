@@ -1,7 +1,9 @@
 from flask import request
 
 IP_server = '138.4.22.12'
-BASE_URL = f'http://{IP_server}:1026/ngsi-ld/v1/entities'
+# BASE_URL = f'http://{IP_server}:1026/ngsi-ld/v1/entities'
+# http://138.4.22.12:80/orion/ngsi-ld/v1/entities
+BASE_URL = f'http://{IP_server}:80/orion/ngsi-ld/v1/entities'
 HEADERS = {
     'Content-Type': 'application/json',
     'Link': '<http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"'
