@@ -31,10 +31,10 @@ def main():
     
     # Config components
     enable_street_light = False
-    enable_toll = False
+    enable_toll = True
     enable_crane = False
     enable_weather_station = False
-    enable_railroad_switch = True
+    enable_railroad_switch = False
     enable_radar = False
     enable_train = False
     
