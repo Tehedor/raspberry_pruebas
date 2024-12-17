@@ -40,9 +40,9 @@ class IoTServer:
                 data = request.json.get("data")[0] 
                 sensor = data.get("id")
                 if sensor == 'urn:ngsi-ld:PirSensor:001':
-                    print(f"Received data for Light Actuator: {sensor}")
+                    print(f"Received data for Light Actuator: {data}")
                 elif sensor == 'urn:ngsi-ld:PhotoresistorSensor:001':
-                    print(f"Received data for Photoresistor Sensor: {sensor}")
+                    print(f"Received data for Photoresistor Sensor: {data}")
                 else:
                     print('Nothing')
                 # print(f"Received data for Light Actuator: {sensor}")
