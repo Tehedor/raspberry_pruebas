@@ -26,7 +26,9 @@ class IoTServer:
             try:
                 data = request.json.get("data")[0]
                 print(f"Received data for LED Detection Actuator: {data}")
-                self.street_light.control_lights_server_led(data.get("stateLed"))
+                led_state = data.get("stateLed", {}).get("value")
+                print(led_state)
+                self.street_light.control_lights_server_led(led_state)
                 return jsonify({"status": "success", "data": data}), 201
             except Exception as e:
                 print(f"Error handling LED Detection Actuator: {e}")
