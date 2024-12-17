@@ -1,5 +1,6 @@
 from gpiozero import DistanceSensor
-from ..server import server_requests
+# from ..server import server_requests
+from server import server_requests
 
 class Crane:
     def __init__(self, pin_ultrasound_trig ,pin_ultrasound_echo ):

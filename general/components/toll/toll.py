@@ -1,7 +1,8 @@
 import signal
 import time
 from components.toll.MFRC522 import MFRC522
-from ...server import server_requests
+# from ...server import server_requests
+from server import server_requests
 
 
 

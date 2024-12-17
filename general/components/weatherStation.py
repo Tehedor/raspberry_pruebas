@@ -7,7 +7,8 @@
 ########################################################################
 import RPi.GPIO as GPIO
 import time
-from ..server import server_requests
+# from ..server import server_requests
+from server import server_requests
 
 
 gpio_to_physical = {2: 3, 3: 5, 4: 7, 14: 8, 15: 10, 17: 11, 

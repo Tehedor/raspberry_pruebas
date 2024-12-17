@@ -4,7 +4,8 @@ from picamera2 import Picamera2, Preview
 from gpiozero import Button
 from ftplib import FTP
 
-from ..server import server_requests
+# from ..server import server_requests
+from server import server_requests
 
 
 class Radar:

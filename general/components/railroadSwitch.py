@@ -1,6 +1,7 @@
 from gpiozero import Button, AngularServo
 
-from ..server import server_requests
+# from ..server import server_requests
+from server import server_requests
 
 myCorrection = 0.0
 maxPW = (2.5 + myCorrection) / 1000
