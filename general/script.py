@@ -30,11 +30,11 @@ def main():
     # server = IoTServer(host=host, port=port) if enable_server else None
     
     # Config components
-    enable_street_light = False
-    enable_toll = True
+    enable_street_light = True
+    enable_toll = False             # va
     enable_crane = False
     enable_weather_station = False
-    enable_railroad_switch = False
+    enable_railroad_switch = False  # va
     enable_radar = False
     enable_train = False
     
