@@ -39,12 +39,18 @@ class PirSensor:
             self.previous_state = False
 
     def detect_motion_server_led(self, state):
-        if state == 'ON':
+        if state == 'True':
             self.led.on()
-            server_requests.led_detection_change('ON')
+            server_requests.led_detection_change('False')
         else:
             self.led.off()
-            server_requests.led_detection_change('OFF')
+            server_requests.led_detection_change('False')
+        # if state == 'ON':
+        #     self.led.on()
+        #     server_requests.led_detection_change('ON')
+        # else:
+        #     self.led.off()
+        #     server_requests.led_detection_change('OFF')
 
     # Destroy 
     def destroy(self):
