@@ -101,8 +101,6 @@ class PhotoResistor:
         # print(self.previous_intensity)
         if abs(intensity - self.previous_intensity) > 0.1:
             server_requests.photoresistor_sensor_change(intensity)
-            print('@@@@@@@@@@@@@@@@@@@@@@')
-            print('@@@@@@@@@@@@@@@@@@@@@@')
         self.previous_intensity = intensity
 
     def detect_intensity_server_light(self, intensity):

@@ -48,7 +48,7 @@ class IoTServer:
                     # Received data for Photoresistor Sensor: {'id': 'urn:ngsi-ld:PhotoresistorSensor:001', 'type': 'PhotoresistorSensor', 'light': {'type': 'Property', 'value': 0.905882}}
                     print(f"Received data for ###Photoresistor### Sensor: {data}")
                     intesity= data.get("light", {}).get("value")
-                    # self.street_light.control_lights_server_light(intesity);
+                    self.street_light.control_lights_server_light(intesity);
                 else:
                     print('Nothing')
                     
