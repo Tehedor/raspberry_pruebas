@@ -8,15 +8,16 @@ from ftplib import FTP
 from server import server_requests
 
 # from radar import subir_foto
-from minio import Minio
-from minio.error import S3Error  # Importar S3Error para manejar los errores
+# from minio import Minio
+# from minio.error import S3Error  # Importar S3Error para manejar los errores
 
-minio_client = Minio(
-    "138.4.22.12:80",  # Dirección de tu servidor MinIO
-    access_key="admin",  # Tu access key
-    secret_key="admin123",  # Tu secret key
-    secure=False  # Establece en True si estás usando HTTPS
-)
+
+# minio_client = Minio(
+#     "138.4.22.12:80",  # Dirección de tu servidor MinIO
+#     access_key="admin",  # Tu access key
+#     secret_key="admin123",  # Tu secret key
+#     secure=False  # Establece en True si estás usando HTTPS
+# )
 
 
 class Radar:
@@ -41,21 +42,21 @@ class Radar:
         # print ('Please preess the button take a photo')
         
         # Subir la imagen a MinIO
-        bucket_name = "bucketfotos"
-        folder_name = "photostrain"
-        object_name = f"{folder_name}/" + local_file.split("/")[-1]
+        # bucket_name = "bucketfotos"
+        # folder_name = "photostrain"
+        # object_name = f"{folder_name}/" + local_file.split("/")[-1]
 
-        try:
-            # Verifica si el bucket existe, si no, crea uno
-            if not minio_client.bucket_exists(bucket_name):
-                print(f"Bucket {bucket_name} no existe, creándolo...")
-                minio_client.make_bucket(bucket_name)
+        # try:
+        #     # Verifica si el bucket existe, si no, crea uno
+        #     if not minio_client.bucket_exists(bucket_name):
+        #         print(f"Bucket {bucket_name} no existe, creándolo...")
+        #         minio_client.make_bucket(bucket_name)
 
-            # Subir el archivo
-            minio_client.fput_object(bucket_name, object_name, local_file)
-            print(f"Imagen subida exitosamente: {object_name}")
-        except S3Error as err:
-            print(f"Error al subir la imagen: {err}")
+        #     # Subir el archivo
+        #     minio_client.fput_object(bucket_name, object_name, local_file)
+        #     print(f"Imagen subida exitosamente: {object_name}")
+        # except S3Error as err:
+        #     print(f"Error al subir la imagen: {err}")
 
         return local_file
         
