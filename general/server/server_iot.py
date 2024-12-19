@@ -42,13 +42,15 @@ class IoTServer:
                 if sensor == 'urn:ngsi-ld:PirSensor:001':
                     print(f"Received data for Light Actuator: {data}")
                     led_state = data.get("presence", {}).get("value")
-                    self.street_light.control_lights_server_light(led_state)
+                    self.street_light.control_lights_server_light_state(led_state)
                 elif sensor == 'urn:ngsi-ld:PhotoresistorSensor:001':
                     # Received data for Photoresistor Sensor: {'id': 'urn:ngsi-ld:PhotoresistorSensor:001', 'type': 'PhotoresistorSensor', 'light': {'type': 'Property', 'value': 0.905882}}
                     print(f"Received data for Photoresistor Sensor: {data}")
-                    light= data.get("light", {}).get("value")
+                    intesity= data.get("light", {}).get("value")
+                    self.street_light.control_lights_server_light(intesity);
                 else:
                     print('Nothing')
+                    
                 # print(f"Received data for Light Actuator: {sensor}")
                             # print(f"Received data for Light Actuator: {data}")
                             # result = self.light_change(data.get("stateLight"))

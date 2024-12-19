@@ -8,35 +8,35 @@ from server import server_requests
 # ** PirSensor class
 # ** ##### ** ##### ** ##### ** ##### ** #
 class PirSensor:
-    def __init__(self, led_pin, sensor_pin):
+    def __init__(self, led_pin, sensor_pin, previous_state):
         self.led = LED(led_pin)
         self.sensor = MotionSensor(sensor_pin)
-        self.previous_state = False
+        self.previous_state = previous_state
 
     # Serverless mode
     def detect_motion(self):
         current_state = self.sensor.motion_detected
-        if current_state and not self.previous_state:
+        if current_state and not self.previous_state[0]:
             self.led.on()
             # print("Motion detected! PIR LED turned on >>>")
-            self.previous_state = True
-        elif not current_state and self.previous_state:
+            self.previous_state[0] = True
+        elif not current_state and self.previous_state[0]:
             self.led.off()
             # print("No Motion! PIR LED turned off <<")
-            self.previous_state = False
+            self.previous_state[0] = False
     
     # Server mode
     def detect_motion_server_pir(self):
         current_state = self.sensor.motion_detected
         
-        if current_state and not self.previous_state:
+        if current_state and not self.previous_state[0]:
             # 'ON'
             server_requests.pir_sensor_change(current_state)
-            self.previous_state = True
-        elif not current_state and self.previous_state:
+            self.previous_state[0] = True
+        elif not current_state and self.previous_state[0]:
             # 'OFF'
             server_requests.pir_sensor_change(current_state)
-            self.previous_state = False
+            self.previous_state[0] = False
 
     def detect_motion_server_led(self, state):
         if state == True:
@@ -61,10 +61,12 @@ class PirSensor:
 # ** PhotoResistor class
 # ** ##### ** ##### ** ##### ** ##### ** #
 class PhotoResistor:
-    def __init__(self, led_pin, threshold=128):
+    def __init__(self, led_pin, previous_state, threshold=128):
         self.led = PWMLED(led_pin)
         self.adc = ADCDevice()
         self.threshold = threshold
+        self.previous_intensity = 0
+        self.previous_state = previous_state
         self.setup()
 
     def setup(self):
@@ -94,17 +96,35 @@ class PhotoResistor:
         value = self.adc.analogRead(0)  # read the ADC value of channel 0
         voltage = value / 255.0 * 3.3
         intensity = voltage
-        server_requests.photoresistor_sensor_change(intensity)
+        if abs(intensity - self.previous_intensity) > 2:
+            server_requests.photoresistor_sensor_change(intensity)
+        self.previous_intensity = intensity
 
-    def detect_intensity_server_light(self, intensity,motion_detected):
+    def detect_intensity_server_light(self, intensity):
         print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
-        print(f'Motion Detected: {motion_detected}')
-        if motion_detected and intensity > self.threshold:
+        print(f'Motion Detected: {self.previous_state[0]}')
+        if self.previous_state[0] and intensity > self.threshold:
             self.led.value = 1.0  # Turn on LED to maximum brightness
+            server_requests.light_change('ON')
             # print("Low light detected! Photoresistor LED turned on >>>")
             # server_requests.light_change('ON')
         else:
             self.led.value = 0.0  # Turn off LED
+            server_requests.light_change('OFF')
+            # print("Sufficient light or no motion! Photoresistor LED remains off <<")
+            # server_requests.light_change('OFF')
+    
+    def detect_intensity_server_light_state(self, state):
+        # print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
+        print(f'Motion Detected: {self.previous_state[0]}')
+        if self.previous_state[0]:
+            self.led.value = 1.0  # Turn on LED to maximum brightness
+            server_requests.light_change('ON')
+            # print("Low light detected! Photoresistor LED turned on >>>")
+            # server_requests.light_change('ON')
+        else:
+            self.led.value = 0.0  # Turn off LED
+            server_requests.light_change('OFF')
             # print("Sufficient light or no motion! Photoresistor LED remains off <<")
             # server_requests.light_change('OFF')
 
@@ -117,8 +137,10 @@ class PhotoResistor:
 # ** ##### ** ##### ** ##### ** ##### ** #
 class StreetLight:
     def __init__(self, pir_led_pin, pir_sensor_pin, photo_led_pin, threshold=128):
-        self.pir_sensor = PirSensor(pir_led_pin, pir_sensor_pin)
-        self.photo_resistor = PhotoResistor(photo_led_pin, threshold)
+        self.previous_state = [False]
+        self.pir_sensor = PirSensor(pir_led_pin, pir_sensor_pin, self.previous_state)
+        self.photo_resistor = PhotoResistor(photo_led_pin, threshold, self.previous_state)
+        
 
     def control_lights(self):
         self.pir_sensor.detect_motion() # cambiar estado a si se tetecta
@@ -142,9 +164,14 @@ class StreetLight:
     def control_lights_server_photo(self):
         self.photo_resistor.detect_intensity_server_photo()
 
-    def control_lights_server_light(self, state):
-        motion_detected = self.pir_sensor.previous_state  # Verifica si el PIR detecta movimiento
-        self.photo_resistor.detect_intensity_server_light(state, motion_detected)
+    def control_lights_server_light_state(self, state):
+        # motion_detected = self.pir_sensor.previous_state  # Verifica si el PIR detecta movimiento
+        self.photo_resistor.detect_intensity_server_light_state(state)
+    
+    def control_lights_server_light(self, intensity):
+        # motion_detected = self.pir_sensor.previous_state  # Verifica si el PIR detecta movimiento
+        self.photo_resistor.detect_intensity_server_light(intensity)
+    
 
 # Destroy 
     def destroy(self):
