@@ -24,7 +24,7 @@ def main():
     sleeptime = 0.05
     
     # Config server 
-    enable_server = False
+    enable_server = True
     # port = None
     # host = None
     # server = IoTServer(host=host, port=port) if enable_server else None
