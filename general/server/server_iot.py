@@ -39,8 +39,9 @@ class IoTServer:
             try:
                 data = request.json.get("data")[0] 
                 sensor = data.get("id")
+                print(sensor)
                 if sensor == 'urn:ngsi-ld:PirSensor:001':
-                    print(f"Received data for Light Actuator: {data}")
+                    # print(f"Received data for Light Actuator: {data}")
                     led_state = data.get("presence", {}).get("value")
                     # self.street_light.control_lights_server_light_state(led_state)
                 elif sensor == 'urn:ngsi-ld:PhotoresistorSensor:001':
