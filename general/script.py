@@ -24,15 +24,15 @@ def main():
     sleeptime = 0.05
     
     # Config server 
-    enable_server = True
+    enable_server = False
     # port = None
     # host = None
     # server = IoTServer(host=host, port=port) if enable_server else None
     
     # Config components
-    enable_street_light = False
-    enable_toll = True             # va
-    enable_crane = False
+    enable_street_light = True
+    enable_toll = False             # va
+    enable_crane = True
     enable_weather_station = False
     enable_railroad_switch = False  # va
     enable_radar = False
