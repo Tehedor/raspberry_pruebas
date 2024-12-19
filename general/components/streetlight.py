@@ -106,14 +106,18 @@ class PhotoResistor:
     def detect_intensity_server_light(self, intensity):
         print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
         print(f'Motion Detected: {self.previous_state[0]}')
-        if self.previous_state[0] and intensity > self.threshold:
+        print('@@@@@@@@')
+        print(intensity)
+        print('@@@@@@@@')
+        if self.previous_state[0] and (intensity > self.threshold):
+        # if self.previous_state[0] and intensity > self.threshold:
             self.led.value = 1.0  # Turn on LED to maximum brightness
-            # server_requests.light_change(True)
+            server_requests.light_change(True)
             # print("Low light detected! Photoresistor LED turned on >>>")
             # server_requests.light_change('ON')
         else:
             self.led.value = 0.0  # Turn off LED
-            # server_requests.light_change(False)
+            server_requests.light_change(False)
             # print("Sufficient light or no motion! Photoresistor LED remains off <<")
             # server_requests.light_change('OFF')
     
