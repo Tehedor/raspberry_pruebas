@@ -7,17 +7,23 @@ from ftplib import FTP
 # from ..server import server_requests
 from server import server_requests
 
+# from radar import subir_foto
+from minio import Minio
+from minio.error import S3Error  # Importar S3Error para manejar los errores
+
+minio_client = Minio(
+    "138.4.22.12:80",  # Dirección de tu servidor MinIO
+    access_key="admin",  # Tu access key
+    secret_key="admin123",  # Tu secret key
+    secure=False  # Establece en True si estás usando HTTPS
+)
+
 
 class Radar:
     def __init__(self, pin_button):
         self.button = Button(pin_button) 
         self.file_path = os.path.expanduser("~/Desktop/pictures/")     
         self.presence_state = False
-        os.makedirs(self.file_path, exist_ok=True)  # Crear la carpeta si no existe
-        self.ftp_host = os.getenv('FTP_HOST')
-        self.ftp_user = os.getenv('FTP_USER')
-        self.ftp_password = os.getenv('FTP_PASSWORD')
-        self.remote_folder = os.getenv('REMOTE_FOLDER')
 
 
     def make_photo(self):
@@ -33,7 +39,28 @@ class Radar:
         # print ('Hello.a photo has been to taken successfully')   # print information on terminal
         picam2.close()
         # print ('Please preess the button take a photo')
+        
+        # Subir la imagen a MinIO
+        bucket_name = "bucketfotos"
+        folder_name = "photostrain"
+        object_name = f"{folder_name}/" + local_file.split("/")[-1]
+
+        try:
+            # Verifica si el bucket existe, si no, crea uno
+            if not minio_client.bucket_exists(bucket_name):
+                print(f"Bucket {bucket_name} no existe, creándolo...")
+                minio_client.make_bucket(bucket_name)
+
+            # Subir el archivo
+            minio_client.fput_object(bucket_name, object_name, local_file)
+            print(f"Imagen subida exitosamente: {object_name}")
+        except S3Error as err:
+            print(f"Error al subir la imagen: {err}")
+
         return local_file
+        
+        
+        
         
 # Serverless mode
     def control_button(self):
@@ -62,18 +89,6 @@ class Radar:
         else:
             pass
 
-    def upload_to_ftp(self, local_file):
-        try:
-            with FTP(self.ftp_host) as ftp:
-                ftp.login(user=self.ftp_user, passwd=self.ftp_password)
-                ftp.cwd(self.remote_folder)  # Cambiar al directorio remoto
-                with open(local_file, "rb") as file:
-                    ftp.storbinary(f"STOR {os.path.basename(local_file)}", file)
-                print(f"Foto subida exitosamente a FTP: {os.path.basename(local_file)}")
-        except Exception as e:
-            print(f"Error al subir la foto: {e}")
-
-    
     
 # Destroy
     def destroy(self):
