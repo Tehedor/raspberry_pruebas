@@ -99,7 +99,7 @@ class PhotoResistor:
         print('@@@@@@@@@@@@@@@@@@@@@@')
         print(intensity)
         print(self.previous_intensity)
-        if abs(intensity - self.previous_intensity) > 2:
+        if abs(intensity - self.previous_intensity) > 0.1:
             server_requests.photoresistor_sensor_change(intensity)
             print('@@@@@@@@@@@@@@@@@@@@@@')
             print('@@@@@@@@@@@@@@@@@@@@@@')
