@@ -19,6 +19,14 @@ def patch_entity(entity_id, attribute, value):
     except request.JSONDecodeError:
         return {"error": "Invalid JSON"}
 
+def patch_entity_payload(entity_id, payload):
+    url = f"{BASE_URL}/{entity_id}/attrs"
+    response = request.patch(url, json=payload, headers=HEADERS)
+    try:
+        return response.json() if response.ok else {"error": "PATCH failed"}
+    except request.JSONDecodeError:
+        return {"error": "Invalid JSON response"}
+
 # Streetlight
 def pir_sensor_change(presence):
     entity_id = f"urn:ngsi-ld:PirSensor:001"
@@ -85,20 +93,11 @@ def infrared_sensor_change(presence):
 def camera_change(state_camera, media_url, timestamp):
     entity_id = f"urn:ngsi-ld:Camera:001"
     payload = {
-        "on": {
-            "type": "Property",
-            "value": state_camera
-        },
-        "mediaURL": {
-            "type": "Property",
-            "value": media_url
-        },
-        "startDataTime": {
-            "type": "Property",
-            "value": timestamp
-        }
+        "on": state_camera,
+        "mediaURL": media_url,
+        "startDataTime": timestamp
     }
-    response = patch_entity(entity_id, payload)
+    response = patch_entity_payload(entity_id, payload)
     print(f"Camera change response: {response}")
     return response
 
