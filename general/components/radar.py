@@ -88,7 +88,7 @@ class Radar:
                 # Subir el archivo
                 minio_client.fput_object(bucket_name, object_name, local_file)
                 print(f"Imagen subida exitosamente: {object_name}")
-                media_url = f"http://"
+                media_url = f"http://138.4.22.12/bucketfotos/photostrain/{object_name}"
                 state_camera = True
                 server_requests.camera_change(state_camera,media_url,timestamp)
             except S3Error as err:
