@@ -67,29 +67,6 @@ def infrared_sensor_change(presence):
     entity_id = f"urn:ngsi-ld:InfraredSensor:001"
     return patch_entity(entity_id, "presence", presence)
 
-# def camera_change(state_camera, media_url, timestamp):
-#     entity_id = f"urn:ngsi-ld:Camera:001"
-#     payload = [
-#         "on": state_camera,
-#         "mediaURL": media_url,
-#         "startDataTime": timestamp   
-#     ]
-#     response = patch_entity(entity_id, payload)
-#     print(f"Camera change response: {response}")
-#     return response
-# def camera_change(state_camera, media_url,timestamp):
-#     entity_id = f"urn:ngsi-ld:Camera:001"
-#     # Obtener la fecha y hora actual en el formato requerido
-#     current_time =timestamp
-#     payload = {
-#         "on": state_camera,
-#         "mediaURL": media_url,
-#         "startDataTime": "2021-06-01T00:00:00Z"
-#     }
-#     response = patch_entity(entity_id,"value", payload)
-#     print(f"Camera change response: {response}")
-#     return response
-
 def camera_change(state_camera, media_url, timestamp):
     entity_id = f"urn:ngsi-ld:Camera:001"
     payload = {
@@ -98,10 +75,8 @@ def camera_change(state_camera, media_url, timestamp):
         "startDataTime": timestamp
     }
     response = patch_entity_payload(entity_id, payload)
-    print(f"Camera change response: {response}")
     return response
 
-    # {"on": true, "mediaURL": "http://examplee.com/media","startDataTime": "2021-06-01T00:00:00Z"}
 # Crane
 def ultrasound_sensor_change(distance):
     entity_id = f"urn:ngsi-ld:UltrasoundSensor:001"
