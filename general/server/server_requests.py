@@ -69,16 +69,36 @@ def infrared_sensor_change(presence):
 #     response = patch_entity(entity_id, payload)
 #     print(f"Camera change response: {response}")
 #     return response
-def camera_change(state_camera, media_url,timestamp):
+# def camera_change(state_camera, media_url,timestamp):
+#     entity_id = f"urn:ngsi-ld:Camera:001"
+#     # Obtener la fecha y hora actual en el formato requerido
+#     current_time =timestamp
+#     payload = {
+#         "on": state_camera,
+#         "mediaURL": media_url,
+#         "startDataTime": "2021-06-01T00:00:00Z"
+#     }
+#     response = patch_entity(entity_id,"value", payload)
+#     print(f"Camera change response: {response}")
+#     return response
+
+def camera_change(state_camera, media_url, timestamp):
     entity_id = f"urn:ngsi-ld:Camera:001"
-    # Obtener la fecha y hora actual en el formato requerido
-    current_time =timestamp
     payload = {
-        "on": state_camera,
-        "mediaURL": media_url,
-        "startDataTime": "2021-06-01T00:00:00Z"
+        "on": {
+            "type": "Property",
+            "value": state_camera
+        },
+        "mediaURL": {
+            "type": "Property",
+            "value": media_url
+        },
+        "startDataTime": {
+            "type": "Property",
+            "value": timestamp
+        }
     }
-    response = patch_entity(entity_id,"value", payload)
+    response = patch_entity(entity_id, payload)
     print(f"Camera change response: {response}")
     return response
 
