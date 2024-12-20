@@ -40,7 +40,7 @@ class Radar:
         # print ('Hello.a photo has been to taken successfully')   # print information on terminal
         picam2.close()
         # print ('Please preess the button take a photo')
-        
+        print(f"Photo taken: {local_file}")
         return local_file,timestamp
         
         
