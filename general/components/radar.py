@@ -66,7 +66,7 @@ class Radar:
                 self.presence_state = False
 
     def control_camera_server(self, state):
-        if state == 'ON':
+        if state == True:
             local_file,timestamp = self.make_photo() 
             
             

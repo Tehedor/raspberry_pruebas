@@ -114,12 +114,16 @@ class IoTServer:
             try:
                 data = request.json.get("data")[0]
                 print(f"Received data for Camera Actuator: {data}")
-                self.radar.control_camera_server(data.get("stateCamera"))
-                # return jsonify(result), 201
+                presence = data.get("presence", {}).get("value")
+#                 led_state = data.get("presence", {}).get("value")
+                self.radar.control_camera_server(presence)
                 return jsonify({"status": "success", "data": data}), 201
             except Exception as e:
                 print(f"Error handling Camera Actuator: {e}")
                 return jsonify({"status": "error", "message": str(e)}), 500
+            
+# Received data for Camera Actuator: {'id': 'urn:ngsi-ld:InfraredSensor:001', 'type': 'InfraredSensor', 'presence': {'type': 'Property', 'value': True}}
+
 
 # Servmotor
         @self.app.route('/servmotorActuator', methods=['POST'])
