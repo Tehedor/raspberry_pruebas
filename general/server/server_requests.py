@@ -78,7 +78,7 @@ def camera_change(state_camera, media_url,timestamp):
         "mediaURL": media_url,
         "startDataTime": "2021-06-01T00:00:00Z"
     }
-    response = patch_entity(entity_id,"data", payload)
+    response = patch_entity(entity_id,"value", payload)
     print(f"Camera change response: {response}")
     return response
 
