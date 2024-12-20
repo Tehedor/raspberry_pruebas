@@ -35,8 +35,11 @@ class Radar:
         picam2.start()
         time.sleep(0.5)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
+        print("a")
         local_file = os.path.join(self.file_path, f"image_{timestamp}.jpg")
+        print("b")
         metadata = picam2.capture_file(local_file)
+        print("c")
         # print ('Hello.a photo has been to taken successfully')   # print information on terminal
         picam2.close()
         # print ('Please preess the button take a photo')
