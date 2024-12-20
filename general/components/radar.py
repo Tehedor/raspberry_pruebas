@@ -35,11 +35,8 @@ class Radar:
         picam2.start()
         time.sleep(0.5)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
-        print("a")
         local_file = os.path.join(self.file_path, f"image_{timestamp}.jpg")
-        print("b")
         metadata = picam2.capture_file(local_file)
-        print("c")
         # print ('Hello.a photo has been to taken successfully')   # print information on terminal
         picam2.close()
         # print ('Please preess the button take a photo')
@@ -90,7 +87,7 @@ class Radar:
                 print(f"Imagen subida exitosamente: {object_name}")
                 media_url = f"http://138.4.22.12/bucketfotos/photostrain/{object_name}"
                 state_camera = True
-                server_requests.camera_change(state_camera,media_url,timestamp)
+                # server_requests.camera_change(state_camera,media_url,timestamp)
             except S3Error as err:
                 print(f"Error al subir la imagen: {err}")            
             
