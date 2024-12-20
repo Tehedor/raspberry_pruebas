@@ -23,7 +23,7 @@ minio_client = Minio(
 class Radar:
     def __init__(self, pin_button):
         self.button = Button(pin_button) 
-        self.file_path = os.path.expanduser("~/Desktop/pictures/")     
+        self.file_path = os.path.expanduser("/home/admin/Desktop//pictures/")     
         self.presence_state = False
 
 
