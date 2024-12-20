@@ -71,25 +71,25 @@ class Radar:
             
             
             # Subir la imagen a MinIO
-            # bucket_name = "bucketfotos"
-            # folder_name = "photostrain"
-            # # object_name = f"{folder_name}/" + local_file.split("/")[-1]
-            # object_name = f"{folder_name}/" + os.path.basename(local_file)
+            bucket_name = "bucketfotos"
+            folder_name = "photostrain"
+            # object_name = f"{folder_name}/" + local_file.split("/")[-1]
+            object_name = f"{folder_name}/" + os.path.basename(local_file)
 
-            # try:
-            #     # Verifica si el bucket existe, si no, crea uno
-            #     if not minio_client.bucket_exists(bucket_name):
-            #         print(f"Bucket {bucket_name} no existe, creándolo...")
-            #         minio_client.make_bucket(bucket_name)
+            try:
+                # Verifica si el bucket existe, si no, crea uno
+                if not minio_client.bucket_exists(bucket_name):
+                    print(f"Bucket {bucket_name} no existe, creándolo...")
+                    minio_client.make_bucket(bucket_name)
 
-            #     # Subir el archivo
-            #     minio_client.fput_object(bucket_name, object_name, local_file)
-            #     print(f"Imagen subida exitosamente: {object_name}")
-            #     media_url = f"http://"
-            #     state_camera = True
-            #     server_requests.camera_change(state_camera,media_url,timestamp)
-            # except S3Error as err:
-            #     print(f"Error al subir la imagen: {err}")            
+                # Subir el archivo
+                minio_client.fput_object(bucket_name, object_name, local_file)
+                print(f"Imagen subida exitosamente: {object_name}")
+                media_url = f"http://"
+                state_camera = True
+                server_requests.camera_change(state_camera,media_url,timestamp)
+            except S3Error as err:
+                print(f"Error al subir la imagen: {err}")            
             
         else:
             pass
