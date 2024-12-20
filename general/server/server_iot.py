@@ -113,7 +113,7 @@ class IoTServer:
         def camera_actuator():
             try:
                 data = request.json.get("data")[0]
-                # print(f"Received data for Camera Actuator: {data}")
+                print(f"Received data for Camera Actuator: {data}")
                 self.radar.control_camera_server(data.get("stateCamera"))
                 # return jsonify(result), 201
                 return jsonify({"status": "success", "data": data}), 201
