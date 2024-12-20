@@ -1,0 +1,51 @@
+##############################################################################################################3
+##############################################################################################################3
+# PATCH request to change PIR sensor presence
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PirSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"presence": true}'
+
+###
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PirSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"presence": false}'
+
+### PATCH request to change LED detection state
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:LedDetection:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateLed": true}'
+
+###
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:LedDetection:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateLed": true}'
+
+##############################################################################################################3
+##############################################################################################################3
+### PATCH request to change photoresistor sensor intensity
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PhotoresistorSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"light": 80}'
+
+###
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PhotoresistorSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"light": 20}'
+
+### PATCH request to change light state
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Light:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateLight": true}'
+
+###
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Light:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateLight": true}'

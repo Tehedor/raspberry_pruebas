@@ -1,0 +1,78 @@
+# PATCH request to change PIR sensor presence
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PirSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"presence": true}'
+
+# PATCH request to change LED detection state
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:LedDetection:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateLed": true}'
+
+# PATCH request to change photoresistor sensor intensity
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PhotoresistorSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"light": 100}'
+
+# PATCH request to change light state
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Light:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateLight": true}'
+
+# PATCH request to change potentiometer sensor velocity control
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PotentiometerSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"velocityControl": 50}'
+
+# PATCH request to change engine DC velocity
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:EngineDC:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"velocityEngine": 100}'
+
+# PATCH request to change switch sensor state
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:SwitchSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"state": true}'
+
+# PATCH request to change servomotor state
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Servmotor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateMotor": true}'
+
+# PATCH request to change infrared sensor presence
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:InfraredSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"presence": true}'
+
+# PATCH request to change camera state and media URL
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Camera:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"stateCamera": true, "mediaUrl": "http://example.com/media"}'
+
+# PATCH request to change ultrasound sensor distance
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:UltrasoundSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"distance": {"type": "Property", "value": 10, "unitCode": "CMT"}}'
+
+# PATCH request to change temperature sensor value
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:TemperatureSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"temperature": {"type": "Property", "value": 25, "unitCode": "CEL"}}'
+
+# PATCH request to change humidity sensor value
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:HumiditySensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"humidity": {"type": "Property", "value": 60, "unitCode": "P1"}}'
+

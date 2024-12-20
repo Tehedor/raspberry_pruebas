@@ -1,0 +1,20 @@
+# PATCH request to change infrared sensor presence
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:InfraredSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"presence": true}'
+
+###
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:InfraredSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"presence": false}'
+
+### PATCH request to change camera state and media URL
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Camera:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"on": true, "mediaURL": "http://examplee.com/media","startDataTime": "2021-06-01T00:00:00Z"}'
+
+
+# "mediaURL", "on", "startDataTime"

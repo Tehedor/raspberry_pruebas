@@ -1,0 +1,11 @@
+# PATCH request to change RFID sensor UID
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:RfidSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"uiddcode": "243,149,22,166,214"}'
+
+### PATCH request to change RFID sensor UID
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:RfidSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"uiddcode": "83,245,104,168,214"}'

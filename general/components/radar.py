@@ -8,8 +8,8 @@ from ftplib import FTP
 from server import server_requests
 
 # from radar import subir_foto
-# from minio import Minio
-# from minio.error import S3Error  # Importar S3Error para manejar los errores
+from minio import Minio
+from minio.error import S3Error  # Importar S3Error para manejar los errores
 
 
 # minio_client = Minio(

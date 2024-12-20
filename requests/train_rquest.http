@@ -1,0 +1,11 @@
+# PATCH request to change potentiometer sensor velocity control
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:PotentiometerSensor:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"velocityControl": 50}'
+
+### PATCH request to change engine DC velocity
+curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:EngineDC:001/attrs \
+-H 'Content-Type: application/json' \
+-H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
+-d '{"velocityEngine": 100}'
