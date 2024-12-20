@@ -61,13 +61,13 @@ def infrared_sensor_change(presence):
 
 def camera_change(state_camera, media_url,timestamp):
     entity_id = f"urn:ngsi-ld:Camera:001"
-    # {"on": true, "mediaURL": "http://examplee.com/media","startDataTime": "2021-06-01T00:00:00Z"}
     payload = {
         "on": state_camera,
         "mediaURL": media_url,
         "startDataTime": timestamp
     }
-    return patch_entity(entity_id, "stateCamera", payload)
+    return patch_entity(entity_id, "startDataTime", payload)
+    # {"on": true, "mediaURL": "http://examplee.com/media","startDataTime": "2021-06-01T00:00:00Z"}
 
 # Crane
 def ultrasound_sensor_change(distance):
