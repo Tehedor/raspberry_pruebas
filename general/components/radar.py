@@ -59,10 +59,12 @@ class Radar:
     def control_button_server(self):
         if self.button.is_pressed:
             server_requests.infrared_sensor_change(True)
+            print("Infrared sensor activated")
             self.presence_state = True
         else:
             if self.presence_state == True:
                 server_requests.infrared_sensor_change(False)
+                print("Infrared sensor deactivated")
                 self.presence_state = False
 
     def control_camera_server(self, state):
@@ -87,7 +89,7 @@ class Radar:
                 print(f"Imagen subida exitosamente: {object_name}")
                 media_url = f"http://138.4.22.12/bucketfotos/photostrain/{object_name}"
                 state_camera = True
-                # server_requests.camera_change(state_camera,media_url,timestamp)
+                server_requests.camera_change(state_camera,media_url,timestamp)
             except S3Error as err:
                 print(f"Error al subir la imagen: {err}")            
             
