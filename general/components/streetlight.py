@@ -41,8 +41,14 @@ class PirSensor:
     def detect_motion_server_led(self, state):
         if state == True:
             self.led.on()
+            print('## ## ## ## ## ## ##')
+            print('ON')
+            print('## ## ## ## ## ## ##')
             server_requests.led_detection_change('ON')
         else:
+            print('## ## ## ## ## ## ##')
+            print('OFF')
+            print('## ## ## ## ## ## ##')
             self.led.off()
             server_requests.led_detection_change('OFF')
         # if state == 'ON':

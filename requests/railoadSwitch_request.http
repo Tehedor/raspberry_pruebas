@@ -8,7 +8,7 @@ curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Switch
 curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:SwitchSensor:001/attrs \
 -H 'Content-Type: application/json' \
 -H 'Link: <http://context/datamodels.context-ngsi.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"' \
--d '{"state": true}'
+-d '{"state": false}'
 
 ### PATCH request to change servomotor state
 curl -X PATCH http://138.4.22.12:80/orion/ngsi-ld/v1/entities/urn:ngsi-ld:Servmotor:001/attrs \
