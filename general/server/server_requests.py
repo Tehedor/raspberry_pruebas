@@ -87,7 +87,8 @@ def ultrasound_sensor_change(distance):
             "unitCode": "CMT"
         }
     }
-    return patch_entity(entity_id, "distance", payload)
+    return patch_entity_payload(entity_id, payload)
+    # return patch_entity(entity_id, "distance", payload)
 
 # WheaterStation
 def temperature_sensor_change(temperature):
@@ -99,7 +100,8 @@ def temperature_sensor_change(temperature):
             "unitCode": "CEL"
         }
     }
-    return patch_entity(entity_id, "temperature", payload)
+    return patch_entity_payload(entity_id, payload)
+    # return patch_entity(entity_id, "temperature", payload)
 
 def humidity_sensor_change(humidity):
     entity_id = f"urn:ngsi-ld:HumiditySensor:001"
@@ -110,7 +112,8 @@ def humidity_sensor_change(humidity):
             "unitCode": "P1"
         }
     }
-    return patch_entity(entity_id, "humidity", payload)
+    return patch_entity_payload(entity_id, payload)
+    # return patch_entity(entity_id, "humidity", payload)
 
 # Toll
 def rfid_sensor_change(uid):
