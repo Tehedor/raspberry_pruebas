@@ -49,7 +49,7 @@ class PirSensor:
 # ** PhotoResistor class
 # ** ##### ** ##### ** ##### ** ##### ** #
 class PhotoResistor:
-    def __init__(self, led_pin, threshold=128, shared_state):
+    def __init__(self, led_pin, shared_state, threshold=128):
         self.led = PWMLED(led_pin)
         self.adc = ADCDevice()
         self.threshold = threshold
