@@ -53,7 +53,7 @@ class IoTServer:
                     print("dasdasdfasdfasdf")
                     # print(intesity)
                     # print("dasdasdfasdfasdf")
-                    self.street_light.control_lights_server_light(intesity);
+                    self.street_light.control_lights_server_light(intesity)
                 else:
                     print('Nothing')
                     
