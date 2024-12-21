@@ -139,7 +139,7 @@ class WeatherStation(object):
 		result = self.readDHT11()
 		if self.times_control_timer <= 0:
 			if result == self.DHTLIB_OK:
-				# print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
+				print("Humidity : %.2f, \t Temperature : %.2f " % (self.humidity, self.temperature))
 				server_requests.temperature_sensor_change(self.temperature)
 				server_requests.humidity_sensor_change(self.humidity)
 			else:
