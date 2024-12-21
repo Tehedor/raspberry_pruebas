@@ -33,7 +33,7 @@ def main():
     enable_street_light = False
     enable_toll = False             # va
     enable_crane = False
-    enable_weather_station = False
+    enable_weather_station = True
     enable_railroad_switch = False  # va
     enable_radar = False            # va
     
