@@ -27,7 +27,7 @@ class Crane:
 # Server mode
     def detect_distance_server(self):
         current_distance = self.sensor.distance * 100  
-        if abs(current_distance - self.last_distance) >= 0.5:
+        if abs(current_distance - self.last_distance) >= 1:
             self.last_distance = current_distance
             print(f"Distance: {current_distance} cm")
             server_requests.ultrasound_sensor_change(current_distance)        
