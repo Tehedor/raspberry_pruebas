@@ -136,7 +136,8 @@ class PhotoResistor:
     def detect_intensity_server_light_state(self, state):
         # print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
         print(f'Motion Detected: {self.previous_state[0]}')
-        if self.previous_state[0]:
+        # if self.previous_state[0]:
+        if state:
             self.led.value = 1.0  # Turn on LED to maximum brightness
             print('## ## ## ## ## ## ##')
             print('ON light state')
