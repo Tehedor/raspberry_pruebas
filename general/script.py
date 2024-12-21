@@ -32,8 +32,8 @@ def main():
     # Config components
     enable_street_light = False
     enable_toll = False             # va
-    enable_crane = False
-    enable_weather_station = True
+    enable_crane = True
+    enable_weather_station = False  # va
     enable_railroad_switch = False  # va
     enable_radar = False            # va
     
