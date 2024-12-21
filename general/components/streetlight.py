@@ -111,7 +111,7 @@ class PhotoResistor:
 
     def detect_intensity_server_light(self, intensity):
         print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
-        print(f'Motion Detected: {self.previous_state[0]}')
+        # print(f'Motion Detected: {self.previous_state[0]}')
         print('@@@@@@@@')
         print(intensity)
         print('@@@@@@@@')
