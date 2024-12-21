@@ -42,12 +42,12 @@ class PirSensor:
         if state == True:
             self.led.on()
             print('## ## ## ## ## ## ##')
-            print('ON')
+            print('ON led')
             print('## ## ## ## ## ## ##')
             server_requests.led_detection_change('ON')
         else:
             print('## ## ## ## ## ## ##')
-            print('OFF')
+            print('OFF led')
             print('## ## ## ## ## ## ##')
             self.led.off()
             server_requests.led_detection_change('OFF')
@@ -119,10 +119,16 @@ class PhotoResistor:
         # if self.previous_state[0] and intensity > self.threshold:
             self.led.value = 1.0  # Turn on LED to maximum brightness
             server_requests.light_change(True)
+            print('## ## ## ## ## ## ##')
+            print('ON light intensity')
+            print('## ## ## ## ## ## ##')
             # print("Low light detected! Photoresistor LED turned on >>>")
             # server_requests.light_change('ON')
         else:
             self.led.value = 0.0  # Turn off LED
+            print('## ## ## ## ## ## ##')
+            print('OFF light intensity')
+            print('## ## ## ## ## ## ##')
             server_requests.light_change(False)
             # print("Sufficient light or no motion! Photoresistor LED remains off <<")
             # server_requests.light_change('OFF')
@@ -132,11 +138,17 @@ class PhotoResistor:
         print(f'Motion Detected: {self.previous_state[0]}')
         if self.previous_state[0]:
             self.led.value = 1.0  # Turn on LED to maximum brightness
+            print('## ## ## ## ## ## ##')
+            print('ON light state')
+            print('## ## ## ## ## ## ##')
             server_requests.light_change(True)
             # print("Low light detected! Photoresistor LED turned on >>>")
             # server_requests.light_change('ON')
         else:
             self.led.value = 0.0  # Turn off LED
+            print('## ## ## ## ## ## ##')
+            print('OFF light state')
+            print('## ## ## ## ## ## ##')
             server_requests.light_change(False)
             # print("Sufficient light or no motion! Photoresistor LED remains off <<")
             # server_requests.light_change('OFF')
