@@ -86,8 +86,8 @@ class PhotoResistor:
         value = self.adc.analogRead(0)  # read the ADC value of channel 0
         voltage = value / 255.0 * 3.3
         intensity = value
-        if abs(intensity - self.previous_intensity) > 0.1:
-            server_requests.photoresistor_sensor_change(intensity)
+        # if abs(intensity - self.previous_intensity) > 0.1:
+        #     server_requests.photoresistor_sensor_change(intensity)
         self.previous_intensity = intensity
 
     def detect_intensity_server_light(self, intensity):
