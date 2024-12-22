@@ -89,7 +89,8 @@ class PhotoResistor:
 
     def detect_intensity_server_light(self, intensity):
         print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
-        # print(f'Motion Detected: {self.previous_state}')
+        print(f'Motion Detected: {self.previous_state}')
+        print(f'Light State: {self.previous_light_state}')
         if intensity > self.threshold:
             self.enable_intensity = True
             if not self.previous_light_state and self.previous_state[0]:
