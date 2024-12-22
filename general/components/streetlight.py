@@ -90,7 +90,7 @@ class PhotoResistor:
         # print(f'Motion Detected: {self.previous_state}')
         if intensity < self.threshold:
             self.enable_intensity = True
-            if self.previous_light_state:
+            if not self.previous_light_state:
                 self.led.value = 1.0  # Turn on LED to maximum brightness
                 server_requests.light_change(True)
                 print('## ## ## ## ## ## ##')
@@ -100,7 +100,7 @@ class PhotoResistor:
                 
         elif self.previous_light_state:
             self.enable_intensity = False
-            if not self.previous_light_state:
+            if self.previous_light_state:
                 self.led.value = 0.0
                 server_requests.light_change(False)
                 print('## ## ## ## ## ## ##')
