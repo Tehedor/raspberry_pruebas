@@ -55,6 +55,7 @@ class PhotoResistor:
         self.threshold = threshold
         self.previous_intensity = 0
         self.previous_light_state = False
+        self.enable_intensity = False
         self.setup()
 
     def setup(self):
@@ -87,23 +88,43 @@ class PhotoResistor:
     def detect_intensity_server_light(self, intensity):
         print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
         # print(f'Motion Detected: {self.previous_state}')
-        if not self.previous_light_state and intensity < self.threshold:
-            self.led.value = 1.0  # Turn on LED to maximum brightness
-            server_requests.light_change(True)
-            print('## ## ## ## ## ## ##')
-            print('ON light intensity')
-            print('## ## ## ## ## ## ##')
-            self.previous_light_state = True
+        if intensity < self.threshold:
+            self.enable_intensity = True
+            if self.previous_light_state:
+                self.led.value = 1.0  # Turn on LED to maximum brightness
+                server_requests.light_change(True)
+                print('## ## ## ## ## ## ##')
+                print('ON light intensity')
+                print('## ## ## ## ## ## ##')
+                self.previous_light_state = True
+                
         elif self.previous_light_state:
-            self.led.value = 0.0  # Turn off LED
-            server_requests.light_change(False)
-            print('## ## ## ## ## ## ##')
-            print('OFF light intensity')
-            print('## ## ## ## ## ## ##')
-            self.previous_light_state = False
+            self.enable_intensity = False
+            if not self.previous_light_state:
+                self.led.value = 0.0
+                server_requests.light_change(False)
+                print('## ## ## ## ## ## ##')
+                print('OFF light intensity')
+                print('## ## ## ## ## ## ##')
+                self.previous_light_state = False
+            
+        # if not self.previous_light_state and intensity < self.threshold:
+        #     self.led.value = 1.0  # Turn on LED to maximum brightness
+        #     server_requests.light_change(True)
+        #     print('## ## ## ## ## ## ##')
+        #     print('ON light intensity')
+        #     print('## ## ## ## ## ## ##')
+        #     self.previous_light_state = True
+        # elif self.previous_light_state:
+        #     self.led.value = 0.0  # Turn off LED
+        #     server_requests.light_change(False)
+        #     print('## ## ## ## ## ## ##')
+        #     print('OFF light intensity')
+        #     print('## ## ## ## ## ## ##')
+        #     self.previous_light_state = False
 
     def detect_intensity_server_light_state(self, state):
-        if not self.previous_light_state and state:
+        if not self.previous_light_state and state and self.enable_intensity:
             self.led.value = 1.0  # Turn on LED to maximum brightness
             server_requests.light_change(True)
             print('## ## ## ## ## ## ##')
