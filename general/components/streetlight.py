@@ -23,14 +23,16 @@ class PirSensor:
             self.previous_state[0] = False
     
     # Server mode
-    def detect_motion_server_pir(self):
+    def detect_motion_server_pir(self,update_motion_state):
         current_state = self.sensor.motion_detected
         if current_state and not self.previous_state[0]:
             server_requests.pir_sensor_change(current_state)
-            self.previous_state[0] = True
+            # self.previous_state[0] = True
+            update_motion_state(True)
         elif not current_state and self.previous_state[0]:
             server_requests.pir_sensor_change(current_state)
-            self.previous_state[0] = False
+            update_motion_state(False)
+            # self.previous_state[0] = False
 
     def detect_motion_server_led(self, state):
         if state:
@@ -160,6 +162,12 @@ class StreetLight:
         motion_detected = self.previous_state[0]  # Verifica si el PIR detecta movimiento
         self.photo_resistor.adjust_led_brightness(motion_detected)  # ajustar el brillo en función de si se detecta o no
 
+
+    def update_motion_state(self, state):
+        self.previous_state[0] = state
+        print(f"[StreetLight] Motion state updated to: {state}")
+
+
     # Server mode
     def control_lights_server(self):
         self.control_lights_server_pir()
@@ -167,7 +175,7 @@ class StreetLight:
 
     # PirSensor class
     def control_lights_server_pir(self):
-        self.pir_sensor.detect_motion_server_pir()
+        self.pir_sensor.detect_motion_server_pir(self.update_motion_state)
 
     def control_lights_server_led(self, state):
         self.pir_sensor.detect_motion_server_led(state)
