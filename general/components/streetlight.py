@@ -27,10 +27,14 @@ class PirSensor:
         current_state = self.sensor.motion_detected
         if current_state and not previous_state:
             server_requests.pir_sensor_change(current_state)
+            print('@@ @@ @@ @@ @@ @@ @@')
+            print(f'Previous state: {previous_state}')
             # self.previous_state[0] = True
             update_motion_state(True)
         elif not current_state and previous_state:
             server_requests.pir_sensor_change(current_state)
+            print('@@ @@ @@ @@ @@ @@ @@')
+            print(f'Previous state: {previous_state}')
             update_motion_state(False)
             # self.previous_state[0] = False
 
@@ -100,6 +104,7 @@ class PhotoResistor:
                 server_requests.light_change(True)
                 print('## ## ## ## ## ## ##')
                 print('ON light intensity')
+                print(f'previous_state: {previous_state}')
                 print('## ## ## ## ## ## ##')
                 self.previous_light_state = True
                 
@@ -110,6 +115,7 @@ class PhotoResistor:
                 server_requests.light_change(False)
                 print('## ## ## ## ## ## ##')
                 print('OFF light intensity')
+                print(f'previous_state: {previous_state}')
                 print('## ## ## ## ## ## ##')
                 self.previous_light_state = False
             
@@ -153,7 +159,7 @@ class PhotoResistor:
 # ** ##### ** ##### ** ##### ** ##### ** #
 class StreetLight:
     def __init__(self, pir_led_pin, pir_sensor_pin, photo_led_pin, threshold=128):
-        self.previous_state = [False]
+        self.previous_state = False
         self.pir_sensor = PirSensor(pir_led_pin, pir_sensor_pin, self.previous_state)
         self.photo_resistor = PhotoResistor(photo_led_pin, self.previous_state, threshold)
 
@@ -164,7 +170,7 @@ class StreetLight:
 
 
     def update_motion_state(self, state):
-        self.previous_state[0] = state
+        self.previous_state = state
         print(f"[StreetLight] Motion state updated to: {state}")
 
 
@@ -175,7 +181,7 @@ class StreetLight:
 
     # PirSensor class
     def control_lights_server_pir(self):
-        self.pir_sensor.detect_motion_server_pir(self.update_motion_state, self.previous_state[0])
+        self.pir_sensor.detect_motion_server_pir(self.update_motion_state, self.previous_state)
 
     def control_lights_server_led(self, state):
         self.pir_sensor.detect_motion_server_led(state)
@@ -185,7 +191,7 @@ class StreetLight:
         self.photo_resistor.detect_intensity_server_photo()
 
     def control_lights_server_light(self, intensity):
-        self.photo_resistor.detect_intensity_server_light(intensity, self.previous_state[0])
+        self.photo_resistor.detect_intensity_server_light(intensity, self.previous_state)
 
     def control_lights_server_light_state(self, state):
         self.photo_resistor.detect_intensity_server_light_state(state)
