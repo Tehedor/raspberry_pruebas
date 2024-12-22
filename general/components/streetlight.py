@@ -49,11 +49,12 @@ class PirSensor:
 # ** PhotoResistor class
 # ** ##### ** ##### ** ##### ** ##### ** #
 class PhotoResistor:
-    def __init__(self, led_pin, threshold=128):
+    def __init__(self, led_pin, previous_state, threshold=128):
         self.led = PWMLED(led_pin)
         self.adc = ADCDevice()
         self.threshold = threshold
         self.previous_intensity = 0
+        self.previous_state = previous_state
         self.previous_light_state = False
         self.enable_intensity = False
         self.setup()
@@ -91,7 +92,7 @@ class PhotoResistor:
         # print(f'Motion Detected: {self.previous_state}')
         if intensity > self.threshold:
             self.enable_intensity = True
-            if not self.previous_light_state:
+            if not self.previous_light_state and self.previous_state[0]:
                 self.led.value = 1.0  # Turn on LED to maximum brightness
                 server_requests.light_change(True)
                 print('## ## ## ## ## ## ##')
@@ -101,7 +102,7 @@ class PhotoResistor:
                 
         elif self.previous_light_state:
             self.enable_intensity = False
-            if self.previous_light_state:
+            if self.previous_light_state and not self.previous_state[0]:
                 self.led.value = 0.0
                 server_requests.light_change(False)
                 print('## ## ## ## ## ## ##')
@@ -151,7 +152,7 @@ class StreetLight:
     def __init__(self, pir_led_pin, pir_sensor_pin, photo_led_pin, threshold=128):
         self.previous_state = [False]
         self.pir_sensor = PirSensor(pir_led_pin, pir_sensor_pin, self.previous_state)
-        self.photo_resistor = PhotoResistor(photo_led_pin, threshold)
+        self.photo_resistor = PhotoResistor(photo_led_pin, self.previous_state, threshold)
 
     def control_lights(self):
         self.pir_sensor.detect_motion()  # cambiar estado a si se detecta
