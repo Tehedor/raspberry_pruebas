@@ -175,7 +175,7 @@ class StreetLight:
 
     # PirSensor class
     def control_lights_server_pir(self):
-        self.pir_sensor.detect_motion_server_pir(self.update_motion_state)
+        self.pir_sensor.detect_motion_server_pir(self.update_motion_state, self.previous_state[0])
 
     def control_lights_server_led(self, state):
         self.pir_sensor.detect_motion_server_led(state)
@@ -185,7 +185,7 @@ class StreetLight:
         self.photo_resistor.detect_intensity_server_photo()
 
     def control_lights_server_light(self, intensity):
-        self.photo_resistor.detect_intensity_server_light(intensity)
+        self.photo_resistor.detect_intensity_server_light(intensity, self.previous_state[0])
 
     def control_lights_server_light_state(self, state):
         self.photo_resistor.detect_intensity_server_light_state(state)
