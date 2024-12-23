@@ -86,9 +86,9 @@ class PhotoResistor:
         value = self.adc.analogRead(0)  # read the ADC value of channel 0
         voltage = value / 255.0 * 3.3
         intensity = value
-        # print(f'ADC Value: {value}, Voltage: {intensity:.2f}V')
-        # if abs(intensity - self.previous_intensity) > 0.1:
-        #     server_requests.photoresistor_sensor_change(intensity)
+        print(f'ADC Value: {value}, Voltage: {intensity:.2f}V')
+        if abs(intensity - self.previous_intensity) > 5:
+            server_requests.photoresistor_sensor_change(intensity)
         self.previous_intensity = intensity
 
     def detect_intensity_server_light(self, intensity):
@@ -102,7 +102,6 @@ class PhotoResistor:
                 server_requests.light_change(True)
                 print('## ## ## ## ## ## ##')
                 print('ON light intensity')
-                print(f'previous_state: {self.previous_state}')
                 print('## ## ## ## ## ## ##')
                 self.previous_light_state = True
                 
@@ -114,24 +113,8 @@ class PhotoResistor:
                 server_requests.light_change(False)
                 print('## ## ## ## ## ## ##')
                 print('OFF light intensity')
-                print(f'previous_state: {self.previous_state}')
                 print('## ## ## ## ## ## ##')
                 self.previous_light_state = False
-            
-        # if not self.previous_light_state and intensity < self.threshold:
-        #     self.led.value = 1.0  # Turn on LED to maximum brightness
-        #     server_requests.light_change(True)
-        #     print('## ## ## ## ## ## ##')
-        #     print('ON light intensity')
-        #     print('## ## ## ## ## ## ##')
-        #     self.previous_light_state = True
-        # elif self.previous_light_state:
-        #     self.led.value = 0.0  # Turn off LED
-        #     server_requests.light_change(False)
-        #     print('## ## ## ## ## ## ##')
-        #     print('OFF light intensity')
-        #     print('## ## ## ## ## ## ##')
-        #     self.previous_light_state = False
 
     def detect_intensity_server_light_state(self, state):
         self.previous_state = state
