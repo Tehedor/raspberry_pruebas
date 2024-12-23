@@ -7,34 +7,34 @@ from server import server_requests
 # ** PirSensor class
 # ** ##### ** ##### ** ##### ** ##### ** #
 class PirSensor:
-    def __init__(self, led_pin, sensor_pin, shared_state):
+    def __init__(self, led_pin, sensor_pin):
         self.led = LED(led_pin)
         self.sensor = MotionSensor(sensor_pin)
-        self.shared_state = shared_state
+        self.previous_state = False
 
     # Serverless mode
     def detect_motion(self):
         current_state = self.sensor.motion_detected
-        if current_state and not self.shared_state[0]:
+        if current_state and not self.previous_state:
             self.led.on()
-            self.shared_state[0] = True
-        elif not current_state and self.shared_state[0]:
+            self.previous_state = True
+        elif not current_state and self.previous_state:
             self.led.off()
-            self.shared_state[0] = False
+            self.previous_state = False
     
     # Server mode
-    def detect_motion_server_pir(self, update_motion_state):
+    def detect_motion_server_pir(self):
         current_state = self.sensor.motion_detected
-        if current_state and not self.shared_state[0]:
+        if current_state and not self.previous_state:
             server_requests.pir_sensor_change(current_state)
             print('@@ @@ @@ @@ @@ @@ @@')
-            print(f'Previous state: {self.shared_state[0]}')
-            update_motion_state(True)
-        elif not current_state and self.shared_state[0]:
+            print(f'Previous state: {self.previous_state}')
+            self.previous_state = True
+        elif not current_state and self.previous_state:
             server_requests.pir_sensor_change(current_state)
             print('@@ @@ @@ @@ @@ @@ @@')
-            print(f'Previous state: {self.shared_state[0]}')
-            update_motion_state(False)
+            print(f'Previous state: {self.previous_state}')
+            self.previous_state = False
 
     def detect_motion_server_led(self, state):
         if state:
@@ -53,12 +53,12 @@ class PirSensor:
 # ** PhotoResistor class
 # ** ##### ** ##### ** ##### ** ##### ** #
 class PhotoResistor:
-    def __init__(self, led_pin, shared_state, threshold=128):
+    def __init__(self, led_pin, threshold=128):
         self.led = PWMLED(led_pin)
         self.adc = ADCDevice()
         self.threshold = threshold
         self.previous_intensity = 0
-        self.shared_state = shared_state
+        self.previous_state = False
         self.previous_light_state = False
         self.enable_intensity = False
         self.setup()
@@ -86,40 +86,68 @@ class PhotoResistor:
         value = self.adc.analogRead(0)  # read the ADC value of channel 0
         voltage = value / 255.0 * 3.3
         intensity = value
+        # print(f'ADC Value: {value}, Voltage: {intensity:.2f}V')
         # if abs(intensity - self.previous_intensity) > 0.1:
         #     server_requests.photoresistor_sensor_change(intensity)
         self.previous_intensity = intensity
 
     def detect_intensity_server_light(self, intensity):
         print(f'ADC Value: {intensity}, Voltage: {intensity:.2f}V')
-        print(f'Motion Detected: {self.shared_state[0]}')
-        if self.shared_state[0] and intensity < self.threshold:
-            self.led.value = 1.0  # Turn on LED to maximum brightness
-            server_requests.light_change(True)
-            print('## ## ## ## ## ## ##')
-            print('ON light intensity')
-            print('## ## ## ## ## ## ##')
-        else:
-            self.led.value = 0.0  # Turn off LED
-            server_requests.light_change(False)
-            print('## ## ## ## ## ## ##')
-            print('OFF light intensity')
-            print('## ## ## ## ## ## ##')
+        print(f'Motion Detected: {self.previous_state}')
+        print(f'Light State: {self.previous_light_state}')
+        if intensity > self.threshold:
+            self.enable_intensity = True
+            if not self.previous_light_state and self.previous_state:
+                self.led.value = 1.0  # Turn on LED to maximum brightness
+                server_requests.light_change(True)
+                print('## ## ## ## ## ## ##')
+                print('ON light intensity')
+                print(f'previous_state: {self.previous_state}')
+                print('## ## ## ## ## ## ##')
+                self.previous_light_state = True
+                
+        elif self.previous_light_state:
+            self.enable_intensity = False
+            if self.previous_light_state and not self.previous_state:
+                self.led.value = 0.0
+                server_requests.light_change(False)
+                print('## ## ## ## ## ## ##')
+                print('OFF light intensity')
+                print(f'previous_state: {self.previous_state}')
+                print('## ## ## ## ## ## ##')
+                self.previous_light_state = False
+            
+        # if not self.previous_light_state and intensity < self.threshold:
+        #     self.led.value = 1.0  # Turn on LED to maximum brightness
+        #     server_requests.light_change(True)
+        #     print('## ## ## ## ## ## ##')
+        #     print('ON light intensity')
+        #     print('## ## ## ## ## ## ##')
+        #     self.previous_light_state = True
+        # elif self.previous_light_state:
+        #     self.led.value = 0.0  # Turn off LED
+        #     server_requests.light_change(False)
+        #     print('## ## ## ## ## ## ##')
+        #     print('OFF light intensity')
+        #     print('## ## ## ## ## ## ##')
+        #     self.previous_light_state = False
 
     def detect_intensity_server_light_state(self, state):
-        print(f'Motion Detected: {self.shared_state[0]}')
-        if self.shared_state[0] and state:
+        self.previous_state = state
+        if not self.previous_light_state and self.previous_state and self.enable_intensity:
             self.led.value = 1.0  # Turn on LED to maximum brightness
             server_requests.light_change(True)
             print('## ## ## ## ## ## ##')
             print('ON light state')
             print('## ## ## ## ## ## ##')
-        else:
+            self.previous_light_state = True
+        elif self.previous_light_state and not self.previous_state:
             self.led.value = 0.0  # Turn off LED
             server_requests.light_change(False)
             print('## ## ## ## ## ## ##')
             print('OFF light state')
             print('## ## ## ## ## ## ##')
+            self.previous_light_state = False
 
     def destroy(self):
         self.led.close()
@@ -130,18 +158,14 @@ class PhotoResistor:
 # ** ##### ** ##### ** ##### ** ##### ** #
 class StreetLight:
     def __init__(self, pir_led_pin, pir_sensor_pin, photo_led_pin, threshold=128):
-        self.shared_state = [False]  # Lista mutable para compartir el estado
-        self.pir_sensor = PirSensor(pir_led_pin, pir_sensor_pin, self.shared_state)
-        self.photo_resistor = PhotoResistor(photo_led_pin, self.shared_state, threshold)
+        self.pir_sensor = PirSensor(pir_led_pin, pir_sensor_pin)
+        self.photo_resistor = PhotoResistor(photo_led_pin, threshold)
 
     def control_lights(self):
         self.pir_sensor.detect_motion()  # cambiar estado a si se detecta
-        motion_detected = self.shared_state[0]  # Verifica si el PIR detecta movimiento
+        motion_detected = self.previous_state  # Verifica si el PIR detecta movimiento
         self.photo_resistor.adjust_led_brightness(motion_detected)  # ajustar el brillo en función de si se detecta o no
 
-    def update_motion_state(self, state):
-        self.shared_state[0] = state
-        print(f"[StreetLight] Motion state updated to: {state}")
 
     # Server mode
     def control_lights_server(self):
@@ -150,7 +174,7 @@ class StreetLight:
 
     # PirSensor class
     def control_lights_server_pir(self):
-        self.pir_sensor.detect_motion_server_pir(self.update_motion_state)
+        self.pir_sensor.detect_motion_server_pir()
 
     def control_lights_server_led(self, state):
         self.pir_sensor.detect_motion_server_led(state)
