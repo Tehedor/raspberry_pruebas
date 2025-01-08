@@ -8,7 +8,9 @@ sudo vim /etc/systemd/system/pythonScriptIOT.service
 
 ### pythonScriptIOT.service
 
-``` XML
+#### general_v1
+
+``` ini
 [Unit]
 Description=Raspberry Pruebas IoT Service
 After=multi-user.target
@@ -17,6 +19,22 @@ After=multi-user.target
 User=root
 WorkingDirectory=/home/admin/Desktop/raspberry_pruebas/general
 ExecStart=/bin/python3 script.py
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### general_latest
+
+``` ini
+[Unit]
+Description=Raspberry Pruebas IoT Service
+After=multi-user.target
+
+[Service]
+User=root
+WorkingDirectory=/home/admin/Desktop/raspberry_pruebas/general_latest
+ExecStart=/bin/python3 main_server.py
 
 [Install]
 WantedBy=multi-user.target
@@ -43,3 +61,11 @@ sudo systemctl start pythonScriptIOT.service
 ``` bash
 sudo systemctl status pythonScriptIOT.service
 ```
+
+## **Nota importante:**
+>
+> ```bash
+> sudo systemctl disable pythonScriptIOT.service
+> sudo systemctl stop pythonScriptIOT.service
+> ```
+>

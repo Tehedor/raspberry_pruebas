@@ -1,0 +1,14 @@
+@host=138.4.22.12
+@port=80
+
+### Start Components
+POST http://{{host}}:{{port}}/serverControl/start
+Content-Type: application/json
+
+{}
+
+### Stop Components
+POST http://{{host}}:{{port}}/serverControl/stop
+Content-Type: application/json
+
+{}
