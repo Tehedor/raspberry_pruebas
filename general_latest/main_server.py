@@ -120,5 +120,16 @@ def stop_components():
 
     return jsonify({"status": "success", "message": "Components stopped"}), 200
 
+@app.route('/status', methods=['GET'])
+def get_status():
+    global components
+
+    status = {}
+    for key, component in components.items():
+        status[key] = component.get_status()
+
+    return jsonify(status), 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

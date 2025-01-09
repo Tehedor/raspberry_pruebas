@@ -12,3 +12,7 @@ POST http://{{host}}:{{port}}/serverControl/stop
 Content-Type: application/json
 
 {}
+
+### Stop Components
+GET http://{{host}}:{{port}}/serverControl/status
+Content-Type: application/json
