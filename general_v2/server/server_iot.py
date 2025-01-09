@@ -1,12 +1,11 @@
 from flask import Flask, request, jsonify
 import os
-import threading
 # from . import server_requests
-import requests
+
 
 class IoTServer:
     # def __init__(self, host='0.0.0.0', port=5000):
-    def __init__(self, host='0.0.0.0', port=3001, street_light=None, toll=None, crane=None, weather_station=None, railroad_switch=None, radar=None, train=None):
+    def __init__(self, host='0.0.0.0', port=80, street_light=None, toll=None, crane=None, weather_station=None, railroad_switch=None, radar=None, train=None):
         self.app = Flask(__name__)
         self.host = host
         self.port = port
@@ -18,7 +17,6 @@ class IoTServer:
         self.railroad_switch = railroad_switch
         self.radar = radar
         self.train = train
-        self.server_thread = None
 
 
     def setup_routes(self):
@@ -59,11 +57,61 @@ class IoTServer:
                 else:
                     print('Nothing')
                     
+                # print(f"Received data for Light Actuator: {sensor}")
+                            # print(f"Received data for Light Actuator: {data}")
+                            # result = self.light_change(data.get("stateLight"))
+                # led_state = data.get("presence", {}).get("value")
+                # print(led_state)
+                # # return jsonify(result), 201
                 return jsonify({"status": "success", "data": data}), 201
             except Exception as e:
                 print(f"Error handling Light Actuator: {e}")
                 return jsonify({"status": "error", "message": str(e)}), 500
 
+
+        #  if (data.id === `urn:ngsi-ld:PhotoresistorSensor:${process.env.DEVICE_NUMBER || '002'}`) {
+        #         console.log(data.light.value);
+        #         if (data.light.value > intensityThreshold) {
+        #             ctrl_lightActuator = 'ON';
+        #             // console.log('Lus');
+        #             if (state_lightAtuator === 'OFF') {
+        #                 state_lightAtuator = 'ON';
+        #                 // console.log('Encendido');
+        #                 ActuatorsService.lightChange(state_lightAtuator);
+        #                 SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
+        #             }
+        #         } else if (data.light.value <= intensityThreshold){
+        #             ctrl_lightActuator = 'OFF';
+        #             // console.log('No hay gente');
+        #             if (state_lightAtuator === 'ON') {
+        #                 state_lightAtuator = 'OFF';
+        #                 // console.log('Apagado'); 
+        #                 ActuatorsService.lightChange(state_lightAtuator);
+        #                 SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
+        #                 // console.log('Apagado');
+        #             }
+        #         }
+        #     }
+    
+        #    // state_lightAtuator
+        # if (data.id === `urn:ngsi-ld:PirSensor:${process.env.DEVICE_NUMBER || '002'}`) {
+        #     if (data.presence.value === 'HIGH' && ctrl_lightActuator === 'ON' && state_lightAtuator === 'OFF') {
+        #         state_lightAtuator = 'ON';
+        #         ActuatorsService.lightChange(state_lightAtuator);
+        #         SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
+        #         // console.log('Encendido');
+        #     } else if (data.presence.value === 'LOW' && state_lightAtuator === 'ON') {
+        #         state_lightAtuator = 'OFF';
+        #         ActuatorsService.lightChange(state_lightAtuator);
+        #         SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
+        #         // console.log('Apagado');
+        #     } else if (ctrl_lightActuator === 'OFF'){
+        #         state_lightAtuator = 'OFF';
+        #         ActuatorsService.lightChange(state_lightAtuator);
+        #         SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
+        #         // console.log('Apagado');
+        #     }
+        # }
 
 # Camera
         @self.app.route('/cameraActuator', methods=['POST'])
@@ -112,32 +160,9 @@ class IoTServer:
             #     print(f"Error handling Engine DC Actuator: {e}")
             #     return jsonify({"status": "error", "message": str(e)}), 500
 
-        @self.app.route('/health', methods=['GET'])
-        def health_check():
-            return jsonify({"status": "healthy","server_io":"on"}), 200
 
-        # @self.app.route('/shutdown', methods=['POST'])
-        # def shutdown():
-        #     func = request.environ.get('werkzeug.server.shutdown')
-        #     if func is None:
-        #         raise RuntimeError('Not running with lthe Werkzeug Server')
-        #     func()
-        #     return 'Server shutting down...'
-        
     def run(self):
-        # self.app.run(host=self.host, port=self.port)
-        self.server_thread = threading.Thread(target=self.app.run, kwargs={'host': self.host, 'port': self.port})
-        self.server_thread.start()
-
-    def stop(self):
-        if self.server_thread:
-            # Send a request to the Flask server to shut it down
-            try:
-                requests.post(f'http://{self.host}:{self.port}/shutdown')
-            except requests.exceptions.RequestException as e:
-                self.server_thread.join()
-                self.server_thread = None
-                print(f"Error shutting down server: {e}")
+        self.app.run(host=self.host, port=self.port)
 
 if __name__ == '__main__':
     server = IoTServer()
