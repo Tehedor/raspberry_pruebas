@@ -160,13 +160,10 @@ class IoTServer:
             #     print(f"Error handling Engine DC Actuator: {e}")
             #     return jsonify({"status": "error", "message": str(e)}), 500
 
-        @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
-        def not_found():
-            """
-            Endpoint para rutas no encontradas.
-            """
-            return jsonify({"status": "error", "message": "Route not found"}), 404
-    
+        @self.route('/health', methods=['GET'])
+        def health_check():
+            return jsonify({"status": "healthy"}), 200
+
     def run(self):
         self.app.run(host=self.host, port=self.port)
 
