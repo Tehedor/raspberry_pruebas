@@ -82,9 +82,10 @@ def start_components():
         railroad_switch=components["railroad_switch"],
         radar=components["radar"],
     ) 
+    components["server"] = server  # Almacenar la instancia del servidor en la variable global components
+    server.run()
+    # tasks.append(server.run)
     
-    tasks.append(server.run)
-
     if components["street_light"]:
         tasks.append(components["street_light"].control_lights_server)
     if components["toll"]:
@@ -128,9 +129,10 @@ def stop_components():
     for thread in threads:
         thread.join()
 
-    if 'server' in components and components['server']:
-        components['server'].stop()
 
+    # Detener el servidor
+    if "server" in components and components["server"]:
+        components["server"].stop()
 
     # Destruir los componentes
     for component in components.values():
