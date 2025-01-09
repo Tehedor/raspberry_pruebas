@@ -166,6 +166,24 @@ class IoTServer:
 
     def run(self):
         self.app.run(host=self.host, port=self.port)
+        
+
+    def stop(self):
+        if self.server_thread:
+            # This will stop the Flask server
+            request.environ.get('werkzeug.server.shutdown')()
+            self.server_thread.join()
+            self.server_thread = None
+
+    # def destroy(self):
+    #     self.app = None
+    #     self.street_light = None
+    #     self.toll = None
+    #     self.crane = None
+    #     self.weather_station = None
+    #     self.railroad_switch = None
+    #     self.radar = None
+    #     self.train = None
 
 if __name__ == '__main__':
     server = IoTServer()

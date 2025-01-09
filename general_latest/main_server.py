@@ -128,6 +128,10 @@ def stop_components():
     for thread in threads:
         thread.join()
 
+    if 'server' in components and components['server']:
+        components['server'].stop()
+
+
     # Destruir los componentes
     for component in components.values():
         if component:
