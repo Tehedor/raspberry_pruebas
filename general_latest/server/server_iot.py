@@ -142,12 +142,12 @@ class IoTServer:
     def stop(self):
         if self.server_thread:
             # Send a request to the Flask server to shut it down
-            try:
-                requests.post(f'http://{self.host}:{self.port}/shutdown')
-            except requests.exceptions.RequestException as e:
-                self.server_thread.join()
-                self.server_thread = None
-                print(f"Error shutting down server: {e}")
+            # try:
+            #     requests.post(f'http://{self.host}:{self.port}/shutdown')
+            # except requests.exceptions.RequestException as e:
+            #     self.server_thread.join()
+            #     self.server_thread = None
+            #     print(f"Error shutting down server: {e}")
             self.server_thread.join()
             self.server_thread = None
     # def destroy(self):
