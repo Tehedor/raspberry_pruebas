@@ -26,8 +26,7 @@ def sensor_task(task, sleeptime, stop_event):
         task()
         time.sleep(sleeptime)
 
-    sleeptime = 0.05
-
+sleeptime = 0.05
     # Config components
 enable_street_light = True
 enable_toll = False
@@ -90,58 +89,45 @@ def start_components():
         thread.start()
         threads.append(thread)
 
-    stae = "start"
+    state = "start"
 
     return jsonify({"status": "success", "message": "Components started"}), 200
 
 @app.route('/stop', methods=['POST'])
 def stop_components():
+    global components, threads, stop_event, state
+
+    if not threads:
+        return jsonify({"status": "error", "message": "Components are not running"}), 400
+
+    # Señalar a los hilos que deben detenerse
     stop_event.set()
-# Destruir los objetos en caso de interrupción
-    if enable_street_light:
-        street_light.destroy()
-    if enable_toll:
-        toll.destroy()
-    if enable_crane:
-        crane.destroy()
-    if enable_weather_station:
-        weather_station.destroy()
-    # if enable_train:
-    #     train.destroy()
-    if enable_radar:
-        radar.destroy()
-    if enable_railroad_switch:
-        railroad_switch.destroy()
-    print("Ending program")
-        # global components, threads, stop_event
 
-    # if not threads:
-    #     return jsonify({"status": "error", "message": "Components are not running"}), 400
+    # Esperar a que todos los hilos terminen
+    for thread in threads:
+        thread.join()
 
-    # stop_event.set()
-    # for thread in threads:
-    #     thread.join()
+    # Destruir los objetos de los componentes
+    if components.get("street_light"):
+        components["street_light"].destroy()
+    if components.get("toll"):
+        components["toll"].destroy()
+    if components.get("crane"):
+        components["crane"].destroy()
+    if components.get("weather_station"):
+        components["weather_station"].destroy()
+    if components.get("radar"):
+        components["radar"].destroy()
+    if components.get("railroad_switch"):
+        components["railroad_switch"].destroy()
 
-    # if components.get("street_light"):
-    #     components["street_light"].destroy()
-    # if components.get("toll"):
-    #     components["toll"].destroy()
-    # if components.get("crane"):
-    #     components["crane"].destroy()
-    # if components.get("weather_station"):
-    #     components["weather_station"].destroy()
-    # if components.get("radar"):
-    #     components["radar"].destroy()
-    # if components.get("railroad_switch"):
-    #     components["railroad_switch"].destroy()
-
-    # components = {}
-    # threads = []
-    # stop_event = threading.Event()
+    # Limpiar las variables globales
+    components = {}
+    threads = []
+    stop_event = threading.Event()
     state = "stop"
 
     return jsonify({"status": "success", "message": "Components stopped"}), 200
-
 @app.route('/status', methods=['GET'])
 def get_status():
     global components
