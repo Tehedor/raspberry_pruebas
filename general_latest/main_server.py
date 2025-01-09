@@ -114,22 +114,40 @@ def stop_components():
     # Destruir los objetos de los componentes
     if components.get("street_light"):
         print("Destroying street_light...")
-        components["street_light"].destroy()
+        try:
+            components["street_light"].destroy()
+        except Exception as e:
+            print(f"Error destroying street_light: {e}")
     if components.get("toll"):
         print("Destroying toll...")
-        components["toll"].destroy()
+        try:
+            components["toll"].destroy()
+        except Exception as e:
+            print(f"Error destroying toll: {e}")
     if components.get("crane"):
         print("Destroying crane...")
-        components["crane"].destroy()
+        try:
+            components["crane"].destroy()
+        except Exception as e:
+            print(f"Error destroying crane: {e}")
     if components.get("weather_station"):
         print("Destroying weather_station...")
-        components["weather_station"].destroy()
+        try:
+            components["weather_station"].destroy()
+        except Exception as e:
+            print(f"Error destroying weather_station: {e}")
     if components.get("radar"):
         print("Destroying radar...")
-        components["radar"].destroy()
+        try:
+            components["radar"].destroy()
+        except Exception as e:
+            print(f"Error destroying radar: {e}")
     if components.get("railroad_switch"):
         print("Destroying railroad_switch...")
-        components["railroad_switch"].destroy()
+        try:
+            components["railroad_switch"].destroy()
+        except Exception as e:
+            print(f"Error destroying railroad_switch: {e}")
 
     # Limpiar las variables globales
     components = {}
