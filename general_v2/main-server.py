@@ -39,17 +39,6 @@ def start_components():
 
 @app.route('/stop', methods=['POST'])
 def stop_components():
-    global state
-    
-    if state == 'stopped':
-        return jsonify({"status": "error", "message": "Components are not running"}), 400
-    
-    state = "stopped"
-    return jsonify({"status": "success", "message": "Components stopped"}), 200
-
-
-@app.route('/stop', methods=['POST'])
-def stop_components():
     global state, process
 
     if process:
@@ -60,6 +49,12 @@ def stop_components():
     state = "stopped"
     print("Components stopped.")
     return jsonify({"status": "success", "message": "Components stopped"}), 200
+
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    global state
+    return jsonify({"status": "success", "state": state}), 200
 
 
 @app.route('/health', methods=['GET'])
