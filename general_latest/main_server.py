@@ -100,25 +100,35 @@ def stop_components():
     if not threads:
         return jsonify({"status": "error", "message": "Components are not running"}), 400
 
+    print("Stopping components...")
+
     # Señalar a los hilos que deben detenerse
     stop_event.set()
 
     # Esperar a que todos los hilos terminen
     for thread in threads:
+        print(f"Joining thread {thread.name}...")
         thread.join()
+        print(f"Thread {thread.name} has stopped.")
 
     # Destruir los objetos de los componentes
     if components.get("street_light"):
+        print("Destroying street_light...")
         components["street_light"].destroy()
     if components.get("toll"):
+        print("Destroying toll...")
         components["toll"].destroy()
     if components.get("crane"):
+        print("Destroying crane...")
         components["crane"].destroy()
     if components.get("weather_station"):
+        print("Destroying weather_station...")
         components["weather_station"].destroy()
     if components.get("radar"):
+        print("Destroying radar...")
         components["radar"].destroy()
     if components.get("railroad_switch"):
+        print("Destroying railroad_switch...")
         components["railroad_switch"].destroy()
 
     # Limpiar las variables globales
@@ -127,6 +137,7 @@ def stop_components():
     stop_event = threading.Event()
     state = "stop"
 
+    print("Components stopped.")
     return jsonify({"status": "success", "message": "Components stopped"}), 200
 
 @app.route('/status', methods=['GET'])
