@@ -23,7 +23,9 @@ def start_components():
     if state != 'starting':
         state = "starting"
 
-        process = subprocess.Popen(["sudo", "python3", "script.py",mode])
+        # process = subprocess.Popen(["sudo", "python3", "script.py",mode,"&"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # process = subprocess.Popen(["sudo", "python3", "script.py",mode,"&"])
+        process = subprocess.Popen(["sudo", "python3", "script.py","&"])
         
         while True:
             response = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", "http://localhost:3001/health"], capture_output=True, text=True)
