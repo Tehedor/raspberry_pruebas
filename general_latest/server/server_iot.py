@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import threading
 # from . import server_requests
-
+import requests
 
 class IoTServer:
     # def __init__(self, host='0.0.0.0', port=5000):
@@ -166,6 +166,16 @@ class IoTServer:
         def health_check():
             return jsonify({"status": "healthy","server_io":"on"}), 200
 
+
+        @self.app.route('/shutdown', methods=['POST'])
+        def shutdown():
+            func = request.environ.get('werkzeug.server.shutdown')
+            if func is None:
+                raise RuntimeError('Not running with the Werkzeug Server')
+            func()
+            return 'Server shutting down...'
+
+        # Define other routes here
     def run(self):
         # self.app.run(host=self.host, port=self.port)
         self.server_thread = threading.Thread(target=self.app.run, kwargs={'host': self.host, 'port': self.port})
@@ -173,11 +183,13 @@ class IoTServer:
 
     def stop(self):
         if self.server_thread:
-            # This will stop the Flask server
-            request.environ.get('werkzeug.server.shutdown')()
+            # Send a request to the Flask server to shut it down
+            try:
+                requests.post(f'http://{self.host}:{self.port}/shutdown')
+            except requests.exceptions.RequestException as e:
+                print(f"Error shutting down server: {e}")
             self.server_thread.join()
             self.server_thread = None
-
     # def destroy(self):
     #     self.app = None
     #     self.street_light = None
