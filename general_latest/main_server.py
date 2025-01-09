@@ -19,6 +19,8 @@ components = {}
 threads = []
 stop_event = threading.Event()
 
+state = "stop"
+
 def sensor_task(task, sleeptime, stop_event):
     while not stop_event.is_set():
         task()
@@ -88,6 +90,8 @@ def start_components():
         thread.start()
         threads.append(thread)
 
+    stae = "start"
+
     return jsonify({"status": "success", "message": "Components started"}), 200
 
 @app.route('/stop', methods=['POST'])
@@ -117,6 +121,7 @@ def stop_components():
     components = {}
     threads = []
     stop_event = threading.Event()
+    state = "stop"
 
     return jsonify({"status": "success", "message": "Components stopped"}), 200
 
@@ -124,10 +129,7 @@ def stop_components():
 def get_status():
     global components
 
-    status = {}
-    for key, component in components.items():
-        status[key] = component.get_status()
-
+    status = {state: state}
     return jsonify(status), 200
 
 
