@@ -37,7 +37,7 @@ enable_radar = True
     
 @app.route('/start', methods=['POST'])
 def start_components():
-    global components, threads, stop_event
+    global components, threads, stop_event, state
 
     if threads:
         return jsonify({"status": "error", "message": "Components are already running"}), 400
@@ -128,11 +128,12 @@ def stop_components():
     state = "stop"
 
     return jsonify({"status": "success", "message": "Components stopped"}), 200
+
 @app.route('/status', methods=['GET'])
 def get_status():
-    global components
+    global state
 
-    status = {state: state}
+    status = {"state": state}
     return jsonify(status), 200
 
 
