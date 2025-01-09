@@ -1,31 +1,38 @@
 import time
+import signal
 from flask import Flask, jsonify
 from dotenv import load_dotenv
 import subprocess
-
 
 mode = "python3"            # sudo python3 script.py 
 # mode =  "gunicorn"          # sudo gunicorn -b 0.0.0.0:5000 main_server:app 
 
 # Inicialización de Flask y carga de variables de entorno
-
 app = Flask(__name__)
 load_dotenv()
 
 state = "stopped"
 process = None
 
+def cleanup(signum, frame):
+    global process
+    if process:
+        process.terminate()
+        process.wait()
+    print("Cleanup complete. Exiting...")
+    exit(0)
+
+# Registrar la función de limpieza para la señal SIGINT
+signal.signal(signal.SIGINT, cleanup)
+
 @app.route('/start', methods=['POST'])
 def start_components():
     global state, process, mode
 
-    
     if state != 'starting':
         state = "starting"
 
-        # process = subprocess.Popen(["sudo", "python3", "script.py",mode,"&"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        # process = subprocess.Popen(["sudo", "python3", "script.py",mode,"&"])
-        process = subprocess.Popen(["sudo", "python3", "script.py","&"])
+        process = subprocess.Popen(["sudo", "python3", "script.py", mode], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
         while True:
             response = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", "http://localhost:3001/health"], capture_output=True, text=True)

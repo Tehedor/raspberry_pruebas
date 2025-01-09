@@ -16,3 +16,8 @@ Content-Type: application/json
 ### Stop Components
 GET http://{{host}}:{{port}}/serverControl/status
 Content-Type: application/json
+
+### Stop Components
+GET http://{{host}}:{{port}}/health
+Content-Type: application/json
+
