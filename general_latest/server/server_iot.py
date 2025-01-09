@@ -164,7 +164,7 @@ class IoTServer:
 
         @self.app.route('/health', methods=['GET'])
         def health_check():
-            return jsonify({"status": "healthy"}), 200
+            return jsonify({"status": "healthy","server_io":"on"}), 200
 
     def run(self):
         # self.app.run(host=self.host, port=self.port)
