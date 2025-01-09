@@ -17,6 +17,7 @@ class IoTServer:
         self.railroad_switch = railroad_switch
         self.radar = radar
         self.train = train
+        self.server_thread = None
 
 
     def setup_routes(self):
@@ -165,8 +166,9 @@ class IoTServer:
             return jsonify({"status": "healthy"}), 200
 
     def run(self):
-        self.app.run(host=self.host, port=self.port)
-        
+        # self.app.run(host=self.host, port=self.port)
+        self.server_thread = threading.Thread(target=self.app.run, kwargs={'host': self.host, 'port': self.port})
+        self.server_thread.start()
 
     def stop(self):
         if self.server_thread:
