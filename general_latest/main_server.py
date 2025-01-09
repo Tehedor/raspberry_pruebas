@@ -73,6 +73,17 @@ def start_components():
     # Crear y lanzar hilos para cada tarea habilitada
     stop_event.clear()
     tasks = []
+    
+    server = IoTServer(
+        street_light=components["street_light"],
+        toll=components["toll"],
+        crane=components["crane"],
+        weather_station=components["weather_station"],
+        railroad_switch=components["railroad_switch"],
+        radar=components["radar"],
+    ) 
+    
+    tasks.append(server.run)
 
     if components["street_light"]:
         tasks.append(components["street_light"].control_lights_server)
