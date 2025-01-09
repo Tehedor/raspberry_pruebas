@@ -178,6 +178,7 @@ class IoTServer:
                 func()
             return 'Server shutting down...'
         # Define other routes here
+        
     def run(self):
         # self.app.run(host=self.host, port=self.port)
         self.server_thread = threading.Thread(target=self.app.run, kwargs={'host': self.host, 'port': self.port})
