@@ -168,16 +168,21 @@ class IoTServer:
 
         @self.app.route('/shutdown', methods=['POST'])
         def shutdown():
-            os._exit(0)
-            if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
-                # If running with Gunicorn, use os._exit to stop the server
-                os._exit(0)
-            else:
-                func = request.environ.get('werkzeug.server.shutdown')
-                if func is None:
-                    raise RuntimeError('Not running with the Werkzeug Server')
-                func()
+            func = request.environ.get('werkzeug.server.shutdown')
+            if func is None:
+                raise RuntimeError('Not running with the Werkzeug Server')
+            func()
             return 'Server shutting down...'
+            # os._exit(0)
+            # if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
+            #     # If running with Gunicorn, use os._exit to stop the server
+            #     os._exit(0)
+            # else:
+            #     func = request.environ.get('werkzeug.server.shutdown')
+            #     if func is None:
+            #         raise RuntimeError('Not running with the Werkzeug Server')
+            #     func()
+            # return 'Server shutting down...'
         # Define other routes here
         
     def run(self):
