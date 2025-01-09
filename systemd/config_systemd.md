@@ -56,6 +56,12 @@ sudo systemctl enable pythonScriptIOT.service
 sudo systemctl start pythonScriptIOT.service
 ```
 
+## 3.2 Start the service
+
+```bash
+sudo systemctl restart pythonScriptIOT.service
+```
+
 ## 4. Check the service status
 
 ``` bash
