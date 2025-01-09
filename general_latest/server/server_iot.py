@@ -59,61 +59,11 @@ class IoTServer:
                 else:
                     print('Nothing')
                     
-                # print(f"Received data for Light Actuator: {sensor}")
-                            # print(f"Received data for Light Actuator: {data}")
-                            # result = self.light_change(data.get("stateLight"))
-                # led_state = data.get("presence", {}).get("value")
-                # print(led_state)
-                # # return jsonify(result), 201
                 return jsonify({"status": "success", "data": data}), 201
             except Exception as e:
                 print(f"Error handling Light Actuator: {e}")
                 return jsonify({"status": "error", "message": str(e)}), 500
 
-
-        #  if (data.id === `urn:ngsi-ld:PhotoresistorSensor:${process.env.DEVICE_NUMBER || '002'}`) {
-        #         console.log(data.light.value);
-        #         if (data.light.value > intensityThreshold) {
-        #             ctrl_lightActuator = 'ON';
-        #             // console.log('Lus');
-        #             if (state_lightAtuator === 'OFF') {
-        #                 state_lightAtuator = 'ON';
-        #                 // console.log('Encendido');
-        #                 ActuatorsService.lightChange(state_lightAtuator);
-        #                 SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
-        #             }
-        #         } else if (data.light.value <= intensityThreshold){
-        #             ctrl_lightActuator = 'OFF';
-        #             // console.log('No hay gente');
-        #             if (state_lightAtuator === 'ON') {
-        #                 state_lightAtuator = 'OFF';
-        #                 // console.log('Apagado'); 
-        #                 ActuatorsService.lightChange(state_lightAtuator);
-        #                 SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
-        #                 // console.log('Apagado');
-        #             }
-        #         }
-        #     }
-    
-        #    // state_lightAtuator
-        # if (data.id === `urn:ngsi-ld:PirSensor:${process.env.DEVICE_NUMBER || '002'}`) {
-        #     if (data.presence.value === 'HIGH' && ctrl_lightActuator === 'ON' && state_lightAtuator === 'OFF') {
-        #         state_lightAtuator = 'ON';
-        #         ActuatorsService.lightChange(state_lightAtuator);
-        #         SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
-        #         // console.log('Encendido');
-        #     } else if (data.presence.value === 'LOW' && state_lightAtuator === 'ON') {
-        #         state_lightAtuator = 'OFF';
-        #         ActuatorsService.lightChange(state_lightAtuator);
-        #         SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
-        #         // console.log('Apagado');
-        #     } else if (ctrl_lightActuator === 'OFF'){
-        #         state_lightAtuator = 'OFF';
-        #         ActuatorsService.lightChange(state_lightAtuator);
-        #         SOCKET_IO.emit('update_lightActuator', state_lightAtuator);
-        #         // console.log('Apagado');
-        #     }
-        # }
 
 # Camera
         @self.app.route('/cameraActuator', methods=['POST'])
@@ -170,10 +120,9 @@ class IoTServer:
         def shutdown():
             func = request.environ.get('werkzeug.server.shutdown')
             if func is None:
-                raise RuntimeError('Not running with the Werkzeug Server')
+                raise RuntimeError('Not running with lthe Werkzeug Server')
             func()
             return 'Server shutting down...'
-            # os._exit(0)
             # if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
             #     # If running with Gunicorn, use os._exit to stop the server
             #     os._exit(0)
@@ -196,6 +145,8 @@ class IoTServer:
             try:
                 requests.post(f'http://{self.host}:{self.port}/shutdown')
             except requests.exceptions.RequestException as e:
+                self.server_thread.join()
+                self.server_thread = None
                 print(f"Error shutting down server: {e}")
             self.server_thread.join()
             self.server_thread = None
