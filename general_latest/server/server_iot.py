@@ -166,15 +166,17 @@ class IoTServer:
         def health_check():
             return jsonify({"status": "healthy","server_io":"on"}), 200
 
-
         @self.app.route('/shutdown', methods=['POST'])
         def shutdown():
-            func = request.environ.get('werkzeug.server.shutdown')
-            if func is None:
-                raise RuntimeError('Not running with the Werkzeug Server')
-            func()
+            if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
+                # If running with Gunicorn, use os._exit to stop the server
+                os._exit(0)
+            else:
+                func = request.environ.get('werkzeug.server.shutdown')
+                if func is None:
+                    raise RuntimeError('Not running with the Werkzeug Server')
+                func()
             return 'Server shutting down...'
-
         # Define other routes here
     def run(self):
         # self.app.run(host=self.host, port=self.port)
