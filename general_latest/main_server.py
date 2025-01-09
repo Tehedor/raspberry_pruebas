@@ -75,17 +75,17 @@ def start_components():
     tasks = []
 
     if components["street_light"]:
-        tasks.append(components["street_light"].control_lights)
+        tasks.append(components["street_light"].control_lights_server)
     if components["toll"]:
-        tasks.append(components["toll"].read_card)
+        tasks.append(components["toll"].read_card_server)
     if components["crane"]:
-        tasks.append(components["crane"].print_distance)
+        tasks.append(components["crane"].detect_distance_server)
     if components["weather_station"]:
-        tasks.append(components["weather_station"].printResult)
+        tasks.append(components["weather_station"].detect_temperature_server)
     if components["radar"]:
-        tasks.append(components["radar"].control_button)
+        tasks.append(components["radar"].control_button_server)
     if components["railroad_switch"]:
-        tasks.append(components["railroad_switch"].control_switch)
+        tasks.append(components["railroad_switch"].control_switch_server)
 
     threads = [
         threading.Thread(target=sensor_task, args=(task, SLEEPTIME, stop_event))
