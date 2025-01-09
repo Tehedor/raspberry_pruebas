@@ -129,20 +129,24 @@ def stop_components():
     for thread in threads:
         thread.join()
 
+    print("12")
 
     # Detener el servidor
     if "server" in components and components["server"]:
         components["server"].stop()
 
+    print("14")
     # Destruir los componentes
     for component in components.values():
         if component:
             component.destroy()
 
+    print("18")
     components.clear()
     threads.clear()
     state = "stopped"
     print("Components stopped.")
+    print("20")
     return jsonify({"status": "success", "message": "Components stopped"}), 200
 
 

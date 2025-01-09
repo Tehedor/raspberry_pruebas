@@ -123,16 +123,6 @@ class IoTServer:
                 raise RuntimeError('Not running with lthe Werkzeug Server')
             func()
             return 'Server shutting down...'
-            # if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
-            #     # If running with Gunicorn, use os._exit to stop the server
-            #     os._exit(0)
-            # else:
-            #     func = request.environ.get('werkzeug.server.shutdown')
-            #     if func is None:
-            #         raise RuntimeError('Not running with the Werkzeug Server')
-            #     func()
-            # return 'Server shutting down...'
-        # Define other routes here
         
     def run(self):
         # self.app.run(host=self.host, port=self.port)
@@ -142,23 +132,12 @@ class IoTServer:
     def stop(self):
         if self.server_thread:
             # Send a request to the Flask server to shut it down
-            # try:
-            #     requests.post(f'http://{self.host}:{self.port}/shutdown')
-            # except requests.exceptions.RequestException as e:
-            #     self.server_thread.join()
-            #     self.server_thread = None
-            #     print(f"Error shutting down server: {e}")
-            self.server_thread.join()
-            self.server_thread = None
-    # def destroy(self):
-    #     self.app = None
-    #     self.street_light = None
-    #     self.toll = None
-    #     self.crane = None
-    #     self.weather_station = None
-    #     self.railroad_switch = None
-    #     self.radar = None
-    #     self.train = None
+            try:
+                requests.post(f'http://{self.host}:{self.port}/shutdown')
+            except requests.exceptions.RequestException as e:
+                self.server_thread.join()
+                self.server_thread = None
+                print(f"Error shutting down server: {e}")
 
 if __name__ == '__main__':
     server = IoTServer()
