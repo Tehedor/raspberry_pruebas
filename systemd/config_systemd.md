@@ -24,6 +24,20 @@ ExecStart=/bin/python3 script.py
 WantedBy=multi-user.target
 ```
 
+```ini
+[Unit]
+Description=Raspberry Pruebas IoT Service
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/admin/Desktop/raspberry_pruebas/general_latest
+ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:80 main_server:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
 #### general_latest
 
 ``` ini

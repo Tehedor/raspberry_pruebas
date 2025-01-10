@@ -94,18 +94,6 @@ def stop_IOT_Components():
     global threads, stop_event
 
     stop_event.set()
-    for thread in threads:
-        thread.join()
-    threads = []
-
-
-def stop_IOT_Components():
-    """
-    Stops IoT components.
-    """
-    global threads, stop_event
-
-    stop_event.set()
     # Destroy objects in case of interruption
     if IOT_INIT["ENABLE_STREET_LIGHT"]:
         components.get("street_light") and components["street_light"].destroy()
