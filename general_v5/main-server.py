@@ -99,16 +99,31 @@ def stop_IOT_Components():
     threads = []
 
 
-# def stop_IOT_Components():
-#     """
-#     Detiene los componentes IoT.
-#     """
-#     global threads, stop_event
+def stop_IOT_Components():
+    """
+    Stops IoT components.
+    """
+    global threads, stop_event
 
-#     stop_event.set()
-#     for thread in threads:
-#         thread.join()
-#     threads = []
+    stop_event.set()
+    # Destroy objects in case of interruption
+    if IOT_INIT["ENABLE_STREET_LIGHT"]:
+        components.get("street_light") and components["street_light"].destroy()
+    if IOT_INIT["ENABLE_TOLL"]:
+        components.get("toll") and components["toll"].destroy()
+    if IOT_INIT["ENABLE_CRANE"]:
+        components.get("crane") and components["crane"].destroy()
+    if IOT_INIT["ENABLE_WEATHER_STATION"]:
+        components.get("weather_station") and components["weather_station"].destroy()
+    if IOT_INIT["ENABLE_RADAR"]:
+        components.get("radar") and components["radar"].destroy()
+    if IOT_INIT["ENABLE_RAILROAD_SWITCH"]:
+        components.get("railroad_switch") and components["railroad_switch"].destroy()
+
+    for thread in threads:
+        thread.join()
+    threads = []
+
 
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
 # Rutas de control

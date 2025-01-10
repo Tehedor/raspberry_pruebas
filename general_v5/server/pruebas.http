@@ -2,23 +2,23 @@
 @port=80
 
 ### Start Components
-POST http://{{host}}:{{port}}/serverControl/start
+POST http://{{host}}:{{port}}/start
 Content-Type: application/json
 
 {}
 
 ### Stop Components
-POST http://{{host}}:{{port}}/serverControl/stop
+POST http://{{host}}:{{port}}/stop 
 Content-Type: application/json
 
 {}
 
 ### Stop Components
-GET http://{{host}}:{{port}}/serverControl/status 
+GET http://{{host}}:{{port}}/status 
 Content-Type: application/json
 
 ### Stop Components
-GET http://{{host}}:{{port}}/serverControl/health
+GET http://{{host}}:{{port}}/health
 Content-Type: application/json
 
 ### Stop Components
